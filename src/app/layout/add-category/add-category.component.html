@@ -1,0 +1,51 @@
+<!-- <p>
+  add-category works!
+</p> -->
+<div>
+  <div class="card-header header-pagetitle" *ngIf="!category.id">
+      Add Category
+  </div>
+  <div class="card-header header-pagetitle" *ngIf="category.id">
+    Edit Category
+  </div>
+
+  <form class="row addedit_category">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <div class="input-group">
+          <input type="text" name="name" [(ngModel)]="category.name"  class="form-control" placeholder="Name" maxlength="30">
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="Icons">Category Image</label>
+        <div class="row">
+          <div class="col-md-3" *ngIf="category.imageUrl">
+            <div class="upload-img">
+              <img class="img-fluid" src="{{category.imageUrl}}" alt="slider">
+              <button type="button" class="remove-images" (click)="removeImage()"><i class="fa fa-times" aria-hidden="true"></i> Remove Image</button>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="uploadimgs">
+              <label>Click to upload Category Image</label>
+              <app-cropper [event]="event" (eventMessage)="receiveMessage($event)" ></app-cropper>
+              <!-- <input type="file" name="medias" id="medias"> -->
+            </div>
+          </div>
+          
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <button class="btn themesbtn" type="button" (click)="submit()" >Submit</button>
+    </div>
+  </form>
+</div>
+
+

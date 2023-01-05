@@ -1,0 +1,54 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <form #imageGalleryForm="ngForm" class="media_selection">  
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Image Gallery
+        <input type="text" name="searchGallery" class="input-underline" id="searchGallery" placeholder="Search" [(ngModel)]="filter" (ngModelChange)="searchGallery($event)">
+      </h4>
+  
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="register-inner loginRegister-inner">
+            <div class="loginRegister-content">
+              <div class="tab-pane loginRegister-item" id="account-login">
+                <div id="customer-login">  
+                  <div id="recover-password" class="">
+                 
+                    <div class="row all_galleryimage">
+                      <span class="no_records" *ngIf="galleryImages.length == 0">No media available. Kindly contact COD Admin.</span>
+                      <div class="col-sm-3" *ngFor="let galleryImage of galleryImages">
+                        <div class="select_galleryimage" *ngIf="galleryImage.isUse == false">
+                          <img class="card-image" src="{{galleryImage.imageUrl}}" >
+                          <input type="radio" name="galleryimage" [value]="galleryImage.imageUrl" [(ngModel)]="selectedImage" [disabled]="galleryImage.isUse == true" required>
+                          <label><i class="fa fa-check"></i></label>
+                          <p>{{galleryImage.title}}</p>
+                        </div>
+                        <div class="select_galleryimage selected_galleryimage" *ngIf="galleryImage.isUse == true">
+                          <img class="card-image" src="{{galleryImage.imageUrl}}">
+                          <input type="radio" name="galleryimage" [checked]="galleryImage.imageUrl == selectedImage" [disabled]="galleryImage.isUse == true" required>
+                          <label><i class="fa fa-check"></i></label>
+                          <p>{{galleryImage.title}}</p>
+                        </div>
+                      </div>
+                      <!-- *ngIf="galleryImage.isUse == false" -->
+                    </div>
+                    <div class="action_bottom smt_galleryimage">
+                      <input type="submit" class="btn" (click)="c('Save click')" [disabled] ="selectedImage == undefined || selectedImage == ''">
+                    </div>
+                    
+                  </div>                           
+                </div>
+              </div>
+            </div>
+          </div>
+              
+  
+    </div>
+  
+  </form>
+  </ng-template>
+  
+  <label class="uploasbussinessimg" *ngIf="profile.event == 'BUSINESS'" type="button" (click)="open(content,profile)">Business Logo</label>
+  <label class="uploasbussinessimg" *ngIf="profile.event == 'DEAL'" type="button" (click)="open(content,profile)"><i class="fa fa-picture-o"></i> Upload Images</label>

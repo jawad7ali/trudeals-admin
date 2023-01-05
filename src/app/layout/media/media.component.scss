@@ -1,0 +1,17 @@
+.media_remove {
+    position: absolute;
+    top: 11px;
+    right: 16px;
+    text-align: center;
+    background: #c07f38;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    display: none;
+}
+.media-library {
+    position: relative;
+}
+.media-library:hover .media_remove {
+    display:block;
+}

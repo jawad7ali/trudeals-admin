@@ -1,0 +1,136 @@
+<form [formGroup]="pageBlockForm">
+    <div class="row">
+        <div *ngIf="pageBlock?.id" class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="id">ID</label>
+                        <div class="input-group">
+                            <input type="number" disabled min="0" name="id" [value]="pageBlock.id"
+                                   class="form-control" placeholder="id">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="url">URL</label>
+                        <div class="input-group">
+                            <input required formControlName="url"
+                                   type="text" name="url"
+                                   class="form-control" placeholder="URI">
+                        </div>
+                    </div>
+                    <div *ngIf="pageBlockForm.controls['url'].invalid && (pageBlockForm.dirty || pageBlockForm.touched)"
+                         class="alert alert-danger">
+
+                        <div *ngIf="pageBlockForm.controls['url'].errors.required">
+                            Url is required.
+                        </div>
+                        <div *ngIf="pageBlockForm.controls['url'].errors.minlength">
+                            Url must be at least 2 characters long.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <div class="input-group">
+                            <input required formControlName="position" type="number" min="0" name="position"
+                                   class="form-control" placeholder="Position">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <div class="input-group">
+                            <angular-editor
+                                id="editor1"
+                                formControlName="title"
+                                name="title">
+                            </angular-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="title">Text</label>
+                        <div class="input-group">
+                            <angular-editor
+                                id="editor2"
+                                formControlName="text"
+                                name="text">
+                            </angular-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="squarcheck">
+                            <input type="checkbox" id="hasButton" name="hasButton" (click)="onHasButtonClick()" formControlName="hasButton" [value]="pageBlock.hasButton" >
+                            <label for="hasButton"></label>
+                        </div>Has Button
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 row" *ngIf="pageBlockForm.controls['hasButton'].value == true">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="hasButton">Button Title</label>
+                            <div class="input-group">
+                                <input type="text" name="buttonTitle" formControlName="buttonTitle"
+                                       class="form-control" placeholder="Button Title">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="hasButton">Button URL</label>
+                            <div class="input-group">
+                                <input type="text" name="buttonUrl" formControlName="buttonUrl"
+                                       class="form-control" placeholder="Button URL">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+<div *ngIf="pageBlockForm.errors?.pageBlockFormInValid && (pageBlockForm.touched || pageBlockForm.dirty)" class="cross-validation-error-message alert alert-danger">
+    Text or Title or Button must have a value
+</div>
+<div *ngIf="pageBlockForm.errors?.hasButtonInvalid && (pageBlockForm.touched || pageBlockForm.dirty)" class="cross-validation-error-message alert alert-danger">
+    Button must have a title and a url values
+</div>
+<button type="button" [disabled]="pageBlockForm.invalid" class="btn btn-outline-dark" (click)="onSubmitClick()">
+    Save
+</button>

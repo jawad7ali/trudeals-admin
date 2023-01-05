@@ -1,0 +1,121 @@
+<div>
+  <div class="card-header header-pagetitle">
+    Business
+    <button type="button" class="btn btn-outline-dark" [routerLink]="['/manage-business','add']">Add business</button>
+  </div>
+  <div>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="row form-group marginhead">
+                  <div class="col-md-12">
+                      <!-- <input type="text" name="searchUser" class="form-control input-underline col-md-4" id="searchUser" placeholder="Search" [(ngModel)]="filter" (ngModelChange)="search($event)"> -->
+                      <input type="text" name="searchUser" class="form-control input-underline col-md-4 pull-right" id="searchUser" placeholder="Search" [(ngModel)]="filter" (keyup)="searchBusiness()">
+                  </div>
+                <div class="card-body table-responsive">
+
+                    <span class="no_records" *ngIf="totalbusiness == 0">No business available. Kindly add business by clicking on add business button.</span>
+                    <div *ngIf="totalbusiness > 0">
+                        <data-table
+                            [items]="business"
+                            [itemCount]="itemCount"
+                            [pagination] = true
+                            [pageLimits]="limits"
+                            [indexColumn]= false
+                            (reload)="reloadItems($event)">
+                            <data-table-column
+                                [property]="'businessUniqueId'"
+                                [header]="'Business id'"
+                                [sortable]="true"
+                                [resizable]="true">
+                                <ng-template #dataTableCell let-item="item">
+                                    <span *ngIf="item.businessUniqueId == 0">-</span>
+                                    <span *ngIf="item.businessUniqueId != 0">{{item.businessUniqueId}}</span>
+                                </ng-template>
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'businessName'"
+                                [header]="'Business name'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'username'"
+                                [header]="'User name'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'firstName'"
+                                [header]="'First name'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'lastName'"
+                                [header]="'Last name'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'businessEmail'"
+                                [header]="'Email'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'businessAddress'"
+                                [header]="'Address'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'cityName'"
+                                [header]="'City'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'stateName'"
+                                [header]="'State'"
+                                [sortable]="true"
+                                [width]="100"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'phoneNo'"
+                                [header]="'Phone no.'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'businessStatus'"
+                                [header]="'businessStatus'"
+                                [width]="100"
+                                [resizable]="true">
+                                <ng-template #dataTableHeader let-item="item">
+                                    <span>Status</span>
+                                </ng-template>
+                                <ng-template #dataTableCell let-item="item">
+                                        <span *ngIf="item.businessStatus == 1">Active</span>
+                                        <span *ngIf="item.businessStatus == 2">Expired</span>
+                                </ng-template>
+                            </data-table-column>
+                            <data-table-column
+                                header="Actions">
+                                <ng-template #dataTableHeader let-item="item">
+                                Actions
+                                </ng-template>
+                                <ng-template #dataTableCell let-item="item">
+                                    <button type="button" [disabled]="item.businessStatus == 2" class="btn btn-sm btn-success margin-inline" title="edit" [routerLink]="['/manage-business',item.userId]"><i class="fa fa-pencil"></i></button>
+                                </ng-template>
+                            </data-table-column>
+                        </data-table>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+

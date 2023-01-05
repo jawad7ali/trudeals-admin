@@ -1,0 +1,110 @@
+.deal_images {
+    position: relative;
+}
+.deal_image .removepdf {
+    position: absolute;
+    right: 2px;
+    top: 0px;
+    cursor: pointer;
+}
+
+.deal_images {
+    background: #ccc;    text-align: center;
+}
+.deal_images img {
+    height: 202px;
+    margin: 0 auto;
+}
+.previewdeal {
+    width: 168px;
+}
+.detailinfo-top {
+    text-align: center;
+    text-align: center;
+    color: #505050;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    line-height: 1.25;
+}
+.detailinfo-top  .icon {
+    font-size: 20px;
+}
+
+.product-options .price span.money {
+    font-size: 24px;
+    font-weight: 700;
+    color: #c07f38;
+}
+.product-options .price del span.money{
+	color: #8d8d8d;
+    font-size: 16px;
+    margin-left: 15px;
+    font-weight: 600;
+}
+.discountshare h4 {
+    font-size: 18px;
+}
+.discountshare ul {
+    text-align: center;
+       margin: 10px 0;
+    list-style-type: none;
+    padding: 0;
+}
+.discountshare ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+.discountshare ul li a {
+        background: #c07f38;
+    display: block;
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    padding: 2px;
+    font-size: 18px;
+}
+.product-wishlist a {
+    justify-content: center;
+    align-items: center;
+    color: #c07f38;
+    transition: all .3s ease;
+    -webkit-transition: all .3s ease;
+}
+.product-wishlist {
+    display: inline-block;
+    width: 46%;
+    margin: 0 1%;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #c07f38;
+    border-radius: 5px;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+}
+.uploadbusinesseimgs {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;     background: #020202de;
+    width: 100%;
+    padding-top: 3px;
+    color: #fff;
+}
+.uploadbusinesseimgs input[type="file"] {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
+
+@media (max-width: 991px){
+    .product-options {    padding: 0 10px;}
+}
+@media (max-width: 450px){
+    .product-wishlist {     display: block;       width: 90%;   margin: 0 auto;   margin-bottom: 10px;    }
+}

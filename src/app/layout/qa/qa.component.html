@@ -1,0 +1,25 @@
+<div>
+  <div class="card-header header-pagetitle" >
+      Q & A
+  </div>
+  <form class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="title">Description<span class="required">*</span></label>
+        <div class="input-group">
+          <ckeditor
+              [(ngModel)]="description"
+              [config]="ckEditorConfig"
+              [readonly]="false"
+              debounce="500"
+              name="description">
+            </ckeditor>
+          <!-- <textarea [(ngModel)]="news.description" class="form-control" rows="5" cols="5" name="description" ></textarea> -->
+        </div>
+      </div>
+      <div >
+        <button class="btn btn-outline-dark" type="button" (click)="submit()">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>

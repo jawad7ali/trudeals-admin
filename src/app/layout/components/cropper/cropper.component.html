@@ -1,0 +1,48 @@
+<!-- <p>
+  cropper works!
+</p> -->
+<button (click)="open(content,event)">Image upload</button>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Image</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <form> -->
+            <!-- {{testingRatio}}
+            {{event}}<span *ngIf = "event == 'category'"> category not </span>
+                     <span *ngIf = "!event == 'category'"> category 54 </span>    -->
+            <div class="col-md-12">                
+             <div class="uploadimgecrop">
+              <input type="file" (change)="fileChangeEvent($event)" /> Upload Image In Media 
+            </div>
+          </div>
+          <div class="form-group">
+              <image-cropper
+                  [imageChangedEvent]="imageChangedEvent"
+                  [aspectRatio]="16 / 9"
+                  [resizeToWidth]="500"
+                  format="png"
+                  (imageCroppedBase64)="imageCropped($event)"
+                  (imageLoaded)="imageLoaded()"
+                  (loadImageFailed)="loadImageFailed()"
+                  [imageQuality]="90"
+              >
+              </image-cropper>
+  
+        
+          </div>
+         <!--  <div class="form-group">
+              <img [src]="croppedImage" />
+          </div>
+         -->
+        <!-- </form> -->
+    </div>
+    <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button> -->
+        <button type="button" class="btn btn-outline-dark" (click)="submit()">Submit</button>
+    </div>
+  </ng-template>

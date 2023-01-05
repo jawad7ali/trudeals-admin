@@ -1,0 +1,620 @@
+
+<div class="dashboard-info aos-item" data-aos="fade-up">
+  <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel" *ngIf="!businessId.id">Add Business</h4>
+      <h4 class="modal-title" id="myModalLabel" *ngIf="businessId.id">Edit Business</h4>
+     <!-- <button class="btn update_btn" (click)="open(content,business)" *ngIf="businessId.id"><i class="zmdi zmdi-pin"></i> Update Address</button> -->
+  </div>
+
+     <div class="manage-form business_forms">
+      <!-- <form #businessForm="ngForm" (ngSubmit)="submit(business)" role="form" method="post"> -->
+        <input type="hidden" name="bussiness-id" value="1070">
+
+         <aw-wizard navigationMode="semi-strict">
+         <aw-wizard-step stepTitle="Business Info">
+          <form #buinessStepOneForm="ngForm" (ngSubmit)="businessStep(1)">
+            <div class="row">
+
+              <div class="col-md-6" *ngIf="businessId.id == 'add'">
+                  <div class="form-group">
+                      <label for="store_cat">Business owner<span class="required">*</span>:</label>
+                      <input class="form-control" type="text" name="businessOwner" placeholder="Search owner" [(ngModel)]="searchUser" (keyup)="searchBusinessOwner($event)" (blur)="closeUserSuggestion()" name="search" autocomplete="off"/>
+                      <div>
+                          <ul class="dropdown_option">
+                            <li (mousedown)="selectedUser(owner)" *ngFor="let owner of ownerList" value= "{{owner.id}}">{{owner.firstName}} {{owner.lastName}} ({{owner.username}})</li>
+                          </ul>
+                      </div>
+
+
+                  </div>
+              </div>
+              <div class="col-md-6" *ngIf="businessId.id && businessId.id != 'add'">
+                <div class="form-group">
+                    <label for="store_cat">Business owner<span class="required">*</span>:</label>
+                    <input type="text" class="form-control" name="bussiness-owner" placeholder="Enter Business Name" [(ngModel)]="business.fullName" id="name" minlength = "2" maxlength="40" readonly>
+                </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="form-group">
+                  <label for="bussiness-name">Business name<span class="required">*</span>:</label>
+                  <input type="text" class="form-control" name="bussiness-name" placeholder="Enter Business Name" [(ngModel)]="business.name" minlength = "2" maxlength="40" required>
+                  <span class="errormsg" *ngIf="business.name?.dirty || business.name?.touched">
+                    <b *ngIf="business.name?.errors?.required">Business name required</b>ss
+                    <b *ngIf="business.name?.errors?.minlength">Business name be of atleast 2 character. </b>
+                    <b *ngIf="business.name?.errors?.maxlength">Business name must be lessthan 40 character. </b>
+                  </span>
+                </div>
+              </div>
+            </div>
+           <div class="form-group">
+             <label for="description">Full description<span class="required">*</span>:</label>
+             <ckeditor
+               [(ngModel)]="business.description"
+               [config]="ckEditorConfig"
+               [readonly]="false"
+               debounce="500"
+               name="description">
+             </ckeditor>
+             <!-- <textarea [(ngModel)]="business.description" class="form-control" rows="10" cols="10" name="description" #description="ngModel" required></textarea> -->
+             <!-- <span class="errormsg" *ngIf="description.dirty || description.touched">
+               <b *ngIf="description.errors?.required">Business description required</b>
+               <b *ngIf="description.errors?.minlength">Business name be of atleast 2 character. </b>
+               <b *ngIf="description.errors?.maxlength">Business name must be lessthan 40 character. </b>
+             </span> -->
+           </div>
+
+           <div class="stepbuttons">
+             <button type="submit" (click)="scrollToTop()" [disabled] ="!buinessStepOneForm.form.valid" awNextStep>Next</button>
+           </div>
+         </form>
+         </aw-wizard-step>
+         <aw-wizard-step stepTitle="Business Hours">
+         <form #buinessStepTwoForm="ngForm" (ngSubmit)="businessStep(2)">
+           <div class="form-group">
+           <label for="hours-of-operation">Hours of Operation:</label>
+           <div class="table-responsive">
+             <table class="table timepickertable">
+               <thead>
+                 <tr>
+                   <th>Day</th>
+                   <th>From</th>
+                   <th>To</th>
+                   <th>From</th>
+                   <th>To</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <td>{{business.workingHours[0].day}}</td>
+                   <td><ngb-timepicker name="modayStartTimeFrom1" [(ngModel)]="business.workingHours[0].from1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="modayendTimeTo1" [(ngModel)]="business.workingHours[0].to1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="modayStartTimeFrom2" [(ngModel)]="business.workingHours[0].from2" [meridian]="meridian" [disabled]="business.workingHours[0].from1 == 'undefiend' || business.workingHours[0].from1 == '' || business.workingHours[0].to1 == 'undefiend' || business.workingHours[0].to1 == ''"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="modayendTimeTo2" [(ngModel)]="business.workingHours[0].to2" [meridian]="meridian" [disabled]="business.workingHours[0].from1 == 'undefiend' || business.workingHours[0].from1 == '' || business.workingHours[0].to1 == 'undefiend' || business.workingHours[0].to1 == ''"></ngb-timepicker></td>
+
+                 </tr>
+                 <tr>
+                   <td>{{business.workingHours[1].day}}</td>
+                   <td><ngb-timepicker name="tuesdayStartTimeFrom1" [(ngModel)]="business.workingHours[1].from1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="tuesdayendTimeTo1" [(ngModel)]="business.workingHours[1].to1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="tuesdayStartTimeFrom2" [(ngModel)]="business.workingHours[1].from2" [meridian]="meridian" [disabled]="business.workingHours[1].from1 == 'undefiend' || business.workingHours[1].from1 == '' || business.workingHours[1].to1 == 'undefiend' || business.workingHours[1].to1 == ''"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="tuesdayendTimeTo2" [(ngModel)]="business.workingHours[1].to2" [meridian]="meridian" [disabled]="business.workingHours[1].from1 == 'undefiend' || business.workingHours[1].from1 == '' || business.workingHours[1].to1 == 'undefiend' || business.workingHours[1].to1 == ''"></ngb-timepicker></td>
+
+                 </tr>
+                 <tr>
+                   <td>{{business.workingHours[2].day}}</td>
+                   <td><ngb-timepicker name="webnesdayStartTimeFrom1" [(ngModel)]="business.workingHours[2].from1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="wednesdayendTimeTo1" [(ngModel)]="business.workingHours[2].to1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="webnesdayStartTimeFrom2" [(ngModel)]="business.workingHours[2].from2" [meridian]="meridian" [disabled]="business.workingHours[2].from1 == 'undefiend' || business.workingHours[2].from1 == '' || business.workingHours[2].to1 == 'undefiend' || business.workingHours[2].to1 == ''"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="wednesdayendTimeTo2" [(ngModel)]="business.workingHours[2].to2" [meridian]="meridian" [disabled]="business.workingHours[2].from1 == 'undefiend' || business.workingHours[2].from1 == '' || business.workingHours[2].to1 == 'undefiend' || business.workingHours[2].to1 == ''"></ngb-timepicker></td>
+                   <!-- <td><input type="time" name=""></td>
+                   <td><input type="time" name=""></td> -->
+                 </tr>
+                 <tr>
+                   <td>{{business.workingHours[3].day}}</td>
+                   <td><ngb-timepicker name="thrudayStartTimeFrom1" [(ngModel)]="business.workingHours[3].from1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="thursdayendTimeTo1" [(ngModel)]="business.workingHours[3].to1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="thrudayStartTimeFrom2" [(ngModel)]="business.workingHours[3].from2" [meridian]="meridian" [disabled]="business.workingHours[3].from1 == 'undefiend' || business.workingHours[3].from1 == '' || business.workingHours[3].to1 == 'undefiend' || business.workingHours[3].to1 == ''"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="thursdayendTimeTo2" [(ngModel)]="business.workingHours[3].to2" [meridian]="meridian" [disabled]="business.workingHours[3].from1 == 'undefiend' || business.workingHours[3].from1 == '' || business.workingHours[3].to1 == 'undefiend' || business.workingHours[3].to1 == ''"></ngb-timepicker></td>
+
+                 </tr>
+                 <tr>
+                   <td>{{business.workingHours[4].day}}</td>
+                   <td><ngb-timepicker name="fridayStartTimeFrom1" [(ngModel)]="business.workingHours[4].from1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="fridayendTimeTo1" [(ngModel)]="business.workingHours[4].to1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="fridayStartTimeFrom2" [(ngModel)]="business.workingHours[4].from2" [meridian]="meridian" [disabled]="business.workingHours[4].from1 == 'undefiend' || business.workingHours[4].from1 == '' || business.workingHours[4].to1 == 'undefiend' || business.workingHours[4].to1 == ''"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="fridayendTimeTo2" [(ngModel)]="business.workingHours[4].to2" [meridian]="meridian" [disabled]="business.workingHours[4].from1 == 'undefiend' || business.workingHours[4].from1 == '' || business.workingHours[4].to1 == 'undefiend' || business.workingHours[4].to1 == ''"></ngb-timepicker></td>
+
+                 </tr>
+                 <tr>
+                   <td>{{business.workingHours[5].day}}</td>
+                   <td><ngb-timepicker name="saturdayStartTimeFrom1" [(ngModel)]="business.workingHours[5].from1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="saturdayendTimeTo1" [(ngModel)]="business.workingHours[5].to1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="saturdatStartTimeFrom2" [(ngModel)]="business.workingHours[5].from2" [meridian]="meridian" [disabled]="business.workingHours[5].from1 == 'undefiend' || business.workingHours[5].from1 == '' || business.workingHours[5].to1 == 'undefiend' || business.workingHours[5].to1 == ''"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="saturdayendTimeTo2" [(ngModel)]="business.workingHours[5].to2" [meridian]="meridian" [disabled]="business.workingHours[5].from1 == 'undefiend' || business.workingHours[5].from1 == '' || business.workingHours[5].to1 == 'undefiend' || business.workingHours[5].to1 == ''"></ngb-timepicker></td>
+
+                 </tr>
+                 <tr>
+                   <td>{{business.workingHours[6].day}}</td>
+                   <td><ngb-timepicker name="sundayStartTimeFrom1" [(ngModel)]="business.workingHours[6].from1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="sundayendTimeTo1" [(ngModel)]="business.workingHours[6].to1" [meridian]="meridian"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="sundayStartTimeFrom2" [(ngModel)]="business.workingHours[6].from2" [meridian]="meridian" [disabled]="business.workingHours[6].from1 == 'undefiend' || business.workingHours[6].from1 == '' || business.workingHours[6].to1 == 'undefiend' || business.workingHours[6].to1 == ''"></ngb-timepicker></td>
+                   <td><ngb-timepicker name="sundayendTimeTo2" [(ngModel)]="business.workingHours[6].to2" [meridian]="meridian" [disabled]="business.workingHours[6].from1 == 'undefiend' || business.workingHours[6].from1 == '' || business.workingHours[6].to1 == 'undefiend' || business.workingHours[6].to1 == ''"></ngb-timepicker></td>
+
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+           </div>
+           <div class="stepbuttons">
+             <button type="button" awPreviousStep>Previous</button>
+             <button type="submit" (click)="scrollToTop()" [disabled] ="!buinessStepTwoForm.form.valid" awNextStep>Next</button>
+           </div>
+         </form>
+         </aw-wizard-step>
+
+         <aw-wizard-step stepTitle="Other Info">
+         <form #buinessStepThreeForm="ngForm" (ngSubmit)="businessStep(3)">
+           <div class="row">
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="store_cat">Business category<span class="required">*</span>:</label>
+                 <select name="store_cat" class="form-control" [(ngModel)]="business.categoryId" name="categoryId" #categoryId="ngModel" class="form-control" required>
+                 <option value="" disabled>- Select -</option>
+                 <option *ngFor="let category of categoryList" value= "{{category.id}}">{{category.name}}</option>
+               </select>
+               <span class="errormsg" *ngIf="categoryId.dirty || categoryId.touched">
+                   <b *ngIf="categoryId.errors?.required">category is required</b>
+               </span>
+               </div>
+             </div>
+
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="landmark">Landmark:</label>
+                 <input type="text" class="form-control" id="landmark" name="landmark" #landmark=ngModel placeholder="Enter Landmark" value="" [(ngModel)]="business.landmark" minlength = "2" maxlength="50">
+                 <span class="errormsg" *ngIf="landmark.dirty || landmark.touched">
+                   <!-- <b *ngIf="name.errors?.required">Business name required</b> -->
+                   <b *ngIf="landmark.errors?.minlength">landmark must be of atleast 2 character. </b>
+                   <b *ngIf="landmark.errors?.maxlength">landmark must be lessthan 25 character. </b>
+                 </span>
+               </div>
+             </div>
+
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="address">Business address<span class="required">*</span>:</label>
+                 <input ngx-google-places-autocomplete class="form-control" name="address" [(ngModel)]="business.address" [options]="'options'" #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" (ngModelChange)="addressRemoved()"/>
+
+               </div>
+             </div>
+
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="address">Business state<span class="required">*</span>:</label>
+                 <select name="state" id="state" class="form-control" [(ngModel)]="business.stateId" #stateId="ngModel" (ngModelChange)="selectCity(business.stateId)" [disabled] ="business.id" required>
+                 <option value="" disabled>Select Your state</option>
+                 <option *ngFor="let location of locationList" value= "{{location.id}}">{{location.name}}</option>
+               </select>
+                             </div>
+             </div>
+
+             <div class="col-md-6">
+               <div class="form-group">
+
+                 <label for="address">Business city<span class="required">*</span>:</label>
+                 <select name="cityId" class="form-control" [(ngModel)]="business.cityId"  (ngModelChange)="selectedCity(business?.cityId)"  required [disabled]="business?.id">
+                   <option value="" disabled>Select City</option>
+                   <option *ngFor="let city of cityList" value= "{{city?.id}}">{{city?.name}}</option>
+                 </select>
+
+               </div>
+             </div>
+
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="zip_code">Zip code<span class="required">*</span>:</label>
+                 <input type="text" class="form-control" id="zip_code" name="zipCode" placeholder="Enter Zip Code" value="" [(ngModel)]="business.zipCode" #zipCode=ngModel minlength = "5" maxlength="5" required>
+
+               <span class="errormsg" *ngIf="zipCode.dirty || zipCode.touched">
+                 <b *ngIf="zipCode.errors?.required">zipCode is required</b>
+                 <b *ngIf="zipCode.errors?.minlength">zipCode must be of atleast 5 character. </b>
+                 <b *ngIf="zipCode.errors?.maxlength">zipCode must be equal 5 character. </b>
+               </span>
+               </div>
+             </div>
+
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="phone">Business phone<span class="required">*</span>:</label>
+                 <input type="text" class="form-control" id="phone" name="phoneNo" placeholder="Enter Business Phone" value="" [(ngModel)]="business.phoneNo" #phoneNo=ngModel minlength = "10" maxlength="14" required>
+                 <span class="errormsg" *ngIf="phoneNo.dirty || phoneNo.touched">
+                   <b *ngIf="phoneNo.errors?.required">phone number is required</b>
+                   <b *ngIf="phoneNo.errors?.minlength">phone number must be of atleast 10 character. </b>
+                   <b *ngIf="phoneNo.errors?.maxlength">phone number must be lessthan 12 character. </b>
+                 </span>
+               </div>
+             </div>
+
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="store_email_address">Business Email Address<span class="required">*</span>:</label>
+                 <input type="text" class="form-control" id="store_email_address" name="email" placeholder="Enter Email Address" value="" [(ngModel)]="business.email" #email=ngModel required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                 <span class="errormsg" *ngIf="email.dirty || email.touched">
+                   <b *ngIf="email.errors?.required">Email is required</b>
+                   <b *ngIf="email.errors && email.errors.pattern"> Email is invalid </b>
+                 </span>
+               </div>
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="website">Company website:</label>
+                 <input type="text" class="form-control" id="website" name="websiteURL" placeholder="Enter Company Website" value="" [(ngModel)]="business.websiteURL" #websiteURL=ngModel pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$">
+                 <span class="errormsg" *ngIf="websiteURL.dirty || websiteURL.touched">
+                   <!-- <b *ngIf="email.errors?.required">Email is required</b> -->
+                   <b *ngIf="websiteURL.errors && websiteURL.errors.pattern"> Website is invalid </b>
+                 </span>
+               </div>
+
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="video">Video link:</label>
+                 <input type="text" class="form-control" id="video" name="videoURL" placeholder="Enter Video Link" value="" [(ngModel)]="business.videoURL" #videoURL=ngModel pattern="http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?">
+                 <span class="errormsg" *ngIf="videoURL.dirty || videoURL.touched">
+                   <b *ngIf="videoURL.errors && videoURL.errors.pattern"> Youtube link is invalid </b>
+                 </span>
+               </div>
+             </div>
+           </div>
+           <div class="stepbuttons">
+             <button type="button" awPreviousStep>Previous</button>
+             <button type="submit" (click)="scrollToTop()" [disabled] ="!buinessStepThreeForm.form.valid" awNextStep>Next</button>
+           </div>
+         </form>
+         </aw-wizard-step>
+
+         <aw-wizard-step stepTitle="Business Social">
+         <form #buinessStepFourForm="ngForm" (ngSubmit)="businessStep(4)">
+           <div class="row">
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="facebook">Facebook link:</label>
+                 <input type="text" class="form-control" id="facebook" name="facebookLink" placeholder="Enter Facebook Link" value="" [(ngModel)]="business.facebookLink" #facebookLink=ngModel pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$">
+                 <span class="errormsg" *ngIf="facebookLink.dirty || facebookLink.touched">
+                   <b *ngIf="facebookLink.errors && facebookLink.errors.pattern">facebook url is invalid </b>
+                 </span>
+               </div>
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="twitter">Twitter link:</label>
+                 <input type="text" class="form-control" id="twitter" name="twitterLink" placeholder="Enter Twitter Link" value="" [(ngModel)]="business.twitterLink" #twitterLink=ngModel pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$">
+                 <span class="errormsg" *ngIf="twitterLink.dirty || twitterLink.touched">
+                   <b *ngIf="twitterLink.errors && twitterLink.errors.pattern">twitter Link is invalid </b>
+                 </span>
+               </div>
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="google">Google+ link:</label>
+                 <input type="text" class="form-control" id="google" name="googleLink" placeholder="Enter Google+ Link" value="" [(ngModel)]="business.googleLink" #googleLink=ngModel pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$">
+                 <span class="errormsg" *ngIf="googleLink.dirty || googleLink.touched">
+                   <b *ngIf="googleLink.errors && googleLink.errors.pattern">google Link is invalid </b>
+                 </span>
+               </div>
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="google">Instagram:</label>
+                 <input type="text" class="form-control" id="instgram" name="instagramLink" placeholder="Enter Instgram Link" value="" [(ngModel)]="business.instagramLink" #instagramLink=ngModel pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$">
+                 <span class="errormsg" *ngIf="instagramLink.dirty || instagramLink.touched">
+                   <b *ngIf="instagramLink.errors && instagramLink.errors.pattern">instgram Link is invalid </b>
+                 </span>
+               </div>
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="google">Yelp link:</label>
+                 <input type="text" class="form-control" id="yelp" name="yelpLink" placeholder="Enter Yelp Link" value="" [(ngModel)]="business.yelpLink" #yelpLink=ngModel pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$">
+                 <span class="errormsg" *ngIf="yelpLink.dirty || yelpLink.touched">
+                   <b *ngIf="yelpLink.errors && yelpLink.errors.pattern">yelp Link is invalid </b>
+                 </span>
+               </div>
+             </div>
+            <!--  <div class="col-md-6">
+               <div class="form-group">
+                 <label for="google">Meta title<span class="required">*</span>:</label>
+                 <input type="text" class="form-control" id="meta_Title" name="meta_Title" placeholder="Enter Meta Title" value="" [(ngModel)]="business.metaTitle" #metaTitle=ngModel required>
+                 <span class="errormsg" *ngIf="metaTitle.dirty || metaTitle.touched">
+                   <b *ngIf="metaTitle.errors?.required">meta title is required</b>
+                 </span>
+               </div>
+             </div> -->
+             <div class="col-md-6">
+               <div class="form-group">
+                 <label for="google">Meta keyword:</label>
+                 <input type="text" class="form-control" id="meta_keyword" name="meta_keyword" placeholder="Enter Meta Keyword" value="" [(ngModel)]="business.metaKeywords" #metaKeywords=ngModel>
+               <!--   <span class="errormsg" *ngIf="metaKeywords.dirty || metaKeywords.touched">
+                   <b *ngIf="metaKeywords.errors?.required">meta keywords is required</b>
+                 </span> -->
+               </div>
+             </div>
+           </div>
+           <div class="stepbuttons">
+             <button type="button" awPreviousStep>Previous</button>
+             <button type="submit" (click)="scrollToTop()" [disabled] ="!buinessStepFourForm.form.valid" awNextStep>Next</button>
+           </div>
+         </form>
+         </aw-wizard-step>
+
+         <aw-wizard-step stepTitle="Business logo">
+         <form #buinessStepFiveForm="ngForm" (ngSubmit)="businessStep(5)">
+           <div class="form-group row">
+             <div class="col-sm-12">
+               <label for="offer_featured_image">Business logo<span class="required">*</span>  </label>
+             </div>
+             <!-- <div class="col-sm-4">
+               <img class="card-image" src="assets/images/products/Product_20_380x_crop_center.jpg" >
+             </div>	 -->
+             <div class="col-sm-4" *ngIf="business.businessMainImage">
+               <div class="business_image">
+               <img class="card-image" src="{{business.businessMainImage}}" >
+               <span (click)="removeLogo()" class="removepdf"><i class="fa fa-times" aria-hidden="true"></i></span>
+                <div class="uploadbusinesseimgs">
+                   <label><i class="fa fa-pencil-square-o"></i> Edit</label>
+                  <input type="file" name="" accept="image/*" (change)="businessLogoUpload($event)">
+                </div>
+              </div>
+             </div>
+
+             <div class="col-sm-4" *ngIf="!business.businessMainImage">
+               <div class="uploadbusinesseimg">
+                 <!-- <app-media-selection [profile]="profile" (imageSelected)="receiveImage($event)"></app-media-selection> -->
+                 <label>Business Logo</label>
+                 <input type="file" name="" accept="image/*" (change)="businessLogoUpload($event)">
+                 <!-- <label>  Click to upload featured image for the offer.</label>
+                 <input type="file" name=""> -->
+               </div>
+             </div>
+           </div>
+           <div class="stepbuttons">
+             <button type="button" awPreviousStep>Previous</button>
+             <button type="submit" (click)="scrollToTop()" [disabled] ="!buinessStepFiveForm.form.valid" awNextStep>Next</button>
+           </div>
+         </form>
+         </aw-wizard-step>
+
+         <aw-wizard-step stepTitle="Business Brochure">
+           <div class="form-group row">
+                <div class="col-sm-12">
+                  <label for="offer_featured_image">Brochure</label>
+                </div>
+                <div class="col-sm-4" *ngIf="business.brochure">
+                  <div class="uploadbrochure">
+                    <a href="{{business.brochure}}" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>View Your Brochure</a>
+                    <span (click)="removeBrochure()" class="removepdf"><i class="fa fa-times" aria-hidden="true"></i></span>
+                    <div class="uploadbusinesseimgs">
+                        <label>Edit Brochure</label>
+                        <input type="file" name="" (change)="uploadBrochure($event)" placeholder="Upload file" accept=".pdf">
+                    </div>
+                  </div>
+                </div>
+                  <div class="col-sm-4" *ngIf="!business.brochure">
+                  <div class="uploadbusinesseimg">
+                    <label>Upload Brochure</label>
+                    <input type="file" name="" (change)="uploadBrochure($event)" placeholder="Upload file" accept=".pdf">
+                    </div>
+                </div>
+                  <div class="col-sm-12">
+                  <p class="description">Upload and select brochure. Only Pdf format allowed.</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                  <label for="offer_featured_image">Menu</label>
+                </div>
+                <div class="col-sm-4" *ngIf="business.menu">
+                  <div class="uploadbrochure">
+                    <a href="{{business.menu}}" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>View Your Menu</a>
+                    <span (click)="RemoveMenu()" class="removepdf"><i class="fa fa-times" aria-hidden="true"></i></span>
+                    <div class="uploadbusinesseimgs">
+                        <label>Edit Menu</label>
+                        <input type="file" name="" (change)="uploadMenu($event)" placeholder="Upload file" accept=".pdf">
+                    </div>
+                  </div>
+                </div>
+                  <div class="col-sm-4" *ngIf="!business.menu">
+                  <div class="uploadbusinesseimg">
+                    <label>Upload Menu</label>
+                    <input type="file" name="" (change)="uploadMenu($event)" placeholder="Upload file" accept=".pdf">
+                    </div>
+                </div>
+                  <div class="col-sm-12">
+                  <p class="description">Upload and select menu. Only Pdf format allowed.</p>
+                </div>
+            </div>
+            <div class="stepbuttons">
+              <button type="button" awPreviousStep>Previous</button>
+              <button type="button" awNextStep>Next</button>
+            </div>
+         </aw-wizard-step>
+
+         <aw-wizard-step stepTitle="Business Slider">
+           <div class="form-group row">
+                <div class="col-sm-12">
+                     <label for="offer_featured_image">Business slider</label>
+           </div>
+
+
+
+             <div class="col-sm-4" dnd-sortable-container [sortableData]="business.businessImages" *ngFor="let sliderImage of business.businessImages; let i = index" dnd-sortable [sortableIndex]="i">
+               <div class="uploadslideimg sliderImage_image">
+                <img class="card-image" [src]="sliderImage.imageName">
+                <span (click)="removeSlider(sliderImage)"><i class="fa fa-times" aria-hidden="true"></i> Remove</span>
+               </div>
+              </div>
+
+
+                <div class="col-sm-4">
+                   <div class="uploadbusinesseimg">
+                     <label>Add New Slide</label>
+                     <input type="file" accept="image/*" multiple="true" (change)="imageUpload($event)" name="">
+                   </div>
+               </div>
+               </div>
+
+             <!--  <div class="form-group">
+               <input name="submit" type="submit" class="btn btn-primary" value="UPDATE BUSINESS DETAILS" [disabled] ="!businessForm.form.valid">
+            </div> -->
+
+            <div class="stepbuttons">
+              <button type="button" awPreviousStep>Previous</button>
+              <button class="add_business" name="submit" type="button" (click)="submit()" ><span *ngIf="businessId.id">UPDATE BUSINESS DETAILS</span><span *ngIf="!businessId.id">ADD BUSINESS DETAILS</span></button>
+            </div>
+         </aw-wizard-step>
+       </aw-wizard>
+
+   <!-- </form> -->
+   </div>
+</div>
+
+<!-- Model if state change -->
+<ng-template #content let-c="close" let-d="dismiss" >
+ <div class="modal-header modal-location">
+   <h4 class="modal-title" id="modal-basic-title">Registration For Business Owners</h4>
+   <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+ <div class="modal-body">
+   <div class="register-inner loginRegister-inner">
+     <div class="loginRegister-content">
+       <div class="tab-pane loginRegister-item" id="account-login">
+       <div id="customer-login">
+         <div id="recover-password" class="">
+         <form #locationForm="ngForm" (ngSubmit)="creatSubscription()" method="post" class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group titledetails">
+                  <label for="Subscription">Subscription</label>
+                </div>
+              </div>
+              <!-- <div id="card-element" class="field"></div> -->
+              <div class="memberships_details col-md-6" *ngFor = "let memberShip of memberShips">
+                  <!-- <input name="options" type="radio" [value]="1"  [(ngModel)]="model.options" ><br/> -->
+                  <div class="memberships_box" (click) ="selectedMembership(memberShip.id)">
+                    <div class="head">
+                      <p>{{memberShip.name}} </p>
+                      <h1><sup>$</sup>{{memberShip.value}}</h1>
+                    </div>
+                      <div class="textpalne">
+                        <h1>Validity</h1>
+                          <div class="hr"></div>
+                        <p>{{memberShip.days}} Days</p>
+                      </div>
+                    <button class="btn btn-outline-dark" type="button" >Click</button>
+                  </div>
+              </div>
+                  <!-- <input type="checkbox" name="memberShip" [checked]="check" (change)="selectedMembership($event, memberShip.id)" /> -->
+
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group titledetails">
+                <label for="Subscription">Card Details</label>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="membershipscards">
+                <div id="card-element" class="field"></div>
+              </div>
+            </div>
+
+
+
+
+          <!-- <div class="col-md-6">
+             <div class="form-group">
+               <label for="landmark">Landmark:</label>
+               <input type="text" class="form-control" id="landmark" name="landmark" #landmark=ngModel placeholder="Enter Landmark" value="" [(ngModel)]="newAddress.landmark" minlength = "2" maxlength="25">
+               <span class="errormsg" *ngIf="landmark.dirty || landmark.touched">
+                 <b *ngIf="landmark.errors?.minlength">landmark must be of atleast 2 character. </b>
+                 <b *ngIf="landmark.errors?.maxlength">landmark must be lessthan 25 character. </b>
+               </span>
+             </div>
+           </div>
+           <div class="col-md-6">
+             <div class="form-group">
+               <label for="address">Business Address:</label>
+               <input ngx-google-places-autocomplete class="form-control" name="address" [(ngModel)]="newAddress.address" [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+             </div>
+           </div>
+
+           <div class="col-md-6">
+             <div class="form-group">
+               <label for="address">Business State<span class="required">*</span>:</label>
+               <select name="state" id="state" class="form-control" [(ngModel)]="newAddress.stateId" #stateId="ngModel" (ngModelChange)="selectCity(newAddress.stateId);removeCity()" required>
+               <option value="" disabled>Select Your state</option>
+               <option *ngFor="let location of locationList" value= "{{location.id}}">{{location.name}}</option>
+             </select>
+             <span class="errormsg" *ngIf="stateId.dirty || stateId.touched">
+                 <b *ngIf="stateId.errors?.required">state is required</b>
+               </span>
+             </div>
+           </div>
+
+           <div class="col-md-6">
+             <div class="form-group">
+               <label for="address">Business City<span class="required">*</span>:</label>
+               <select name="cityId" id="city" class="form-control" [(ngModel)]="newAddress.cityId" #cityId="ngModel" (ngModelChange)="selectedCity(newAddress.cityId)" required>
+                 <option value="">Select City</option>
+                 <option *ngFor="let city of cityList" value= "{{city.id}}">{{city.name}}</option>
+               </select>
+               <span class="errormsg" *ngIf="cityId.dirty || cityId.touched">
+                 <b *ngIf="cityId.errors?.required">City is required</b>
+               </span>
+             </div>
+           </div>
+
+           <div class="col-md-6">
+             <div class="form-group">
+               <label for="zip_code">Zip Code<span class="required">*</span>:</label>
+               <input type="text" class="form-control" id="zip_code" name="zipCode" placeholder="Enter Zip Code" value="" [(ngModel)]="newAddress.zipCode" #zipCode=ngModel minlength = "5" maxlength="5" required>
+             </div>
+             <span class="errormsg" *ngIf="zipCode.dirty || zipCode.touched">
+               <b *ngIf="zipCode.errors?.required">zipCode is required</b>
+               <b *ngIf="zipCode.errors?.minlength">zipCode must be of atleast 5 character. </b>
+               <b *ngIf="zipCode.errors?.maxlength">zipCode must be equal 5 character. </b>
+             </span>
+           </div> -->
+           <div class="col-md-12">
+             <!-- <div class="form-group row">
+               <div class="col-sm-12">
+                 <label for="offer_featured_image">Business logo<span class="required">*</span>  </label>
+               </div>
+               <div class="col-sm-6 business_image" *ngIf="newAddress.businessMainImage">
+                 <img class="card-image" src="{{newAddress.businessMainImage}}" >
+               </div>
+
+               <div class="col-sm-6">
+                 <div class="uploadbusinesseimg">
+                   <app-media-selection [profile]="profile" (imageSelected)="receiveImage($event)"></app-media-selection>
+                 </div>
+               </div>
+             </div> -->
+             <div class="action_bottom">
+               <input type="submit" class="btn"  [disabled]="!locationForm.form.valid" value="Submit">
+             </div>
+           </div>
+         </form>
+         </div>
+       </div>
+       </div>
+     </div>
+     </div>
+
+
+ </div>
+</ng-template>

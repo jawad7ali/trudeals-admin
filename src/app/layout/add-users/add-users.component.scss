@@ -1,0 +1,98 @@
+.memberships_box {
+    margin-bottom: 30px;
+    margin-top: 5px;
+    background: #fff;
+    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.1);
+    transition: all .3s ease;
+    text-align: center;
+    padding: 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 0;
+    margin: 20px 0;    padding-bottom: 20px;    cursor: pointer;
+}
+.memberships_box .head {
+    background: #c07f38;
+    padding: 20px;
+}
+.memberships_box .head p {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 15px;margin-bottom: 25px;
+}
+.memberships_box:hover {
+    box-shadow: 0px 15px 20px 0px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+}
+.memberships_box .head h1 {
+    font-size: 52px;
+    color: #fff;
+    font-weight: bold;
+}
+.memberships_box .head h1 sup{
+    font-size: 20px;
+    top: -1.5em;
+    font-weight: 500;
+    margin-right: 5px;
+}
+.memberships_box .textpalne {
+    margin: 50px;
+}
+.memberships_box .textpalne h1 {
+    font-size: 22px;
+}
+/*.memberships_box h1 b {
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #c07f38;
+    display: block;
+}
+.memberships_box span {
+    font-size: 17px;
+    text-transform: capitalize;
+    color: #444444;
+    display: block;
+    margin-top: 5px;
+}*/
+.hr {
+    border-bottom: 1px solid #e8e8e8;
+    margin: 10px 40px;
+}
+.memberships_box button.btn{
+    width: 280px;
+    border-radius: 0;
+    text-transform: uppercase;
+    margin: 20px;
+    background: transparent;
+    color: #c07f38;border: 2px solid;
+}
+.membershipscards {
+    border: 2px solid #e6e6e6;
+    border-radius: 7px;
+    background-color: #FAFAFA;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.memberships_box.onselect {
+    border: 1px solid #c07f38;
+}
+.titledetails label {
+    font-size: 18px;
+}
+.titledetails {
+    border-bottom: 1px solid #ccc;
+}
+
+.promocodeApplied{
+    padding: 10px;
+    color: green;
+  }
+  
+  .promocodeRejected{
+    padding: 10px;
+    color: red;
+  }
+
+.promocode_button{
+    margin-top: 15px
+}  

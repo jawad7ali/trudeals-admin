@@ -1,0 +1,131 @@
+<div>
+  <div class="card-header header-pagetitle">
+    Deals
+    <button type="button" class="btn btn-outline-dark" [routerLink]="['/manage-deal','deal','add']">Add Deal</button>
+  </div>
+  <div>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="row form-group marginhead">
+                  <div class="col-md-12">
+                      <input type="text" name="searchUser" class="form-control input-underline col-md-4 pull-right" id="searchUser" [(ngModel)]="filter.searchText" placeholder="Search" (keyup)="searchDeal()"/>
+
+                      <select name="type" id="type" class="form-control col-md-3 pull-right maginright" [(ngModel)]="filter.businessId" (ngModelChange)="businessOwner(filter.businessId)">
+                            <option value="" disabled>Select business name</option>
+                            <option value="0">All</option>
+                            <option *ngFor="let business of businessList" value= "{{business.businessId}}">{{business.firstName}} {{business.lastName}} ({{business.username}})</option>
+                       </select>
+
+
+                  </div>
+
+                <div class="card-body table-responsive">
+
+                <span class="no_records" *ngIf="totalDeals == 0">No deal available. Kindly add deal by clicking on add deal button.</span>
+                    <div *ngIf="totalDeals > 0">
+                        <data-table
+                            [items]="deals"
+                            [itemCount]="itemCount"
+                            [pagination] = true
+                            [pageLimits]="limits"
+                            [indexColumn]= false
+                            (reload)="reloadItems($event)">
+                            <data-table-column
+                                [property]="'businessName'"
+                                [header]="'Business name'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'dealTitle'"
+                                [header]="'Deal title'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'fullName'"
+                                [header]="'Business owner'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'startDate'"
+                                [header]="'Start date'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'expireDate'"
+                                [header]="'Expire date'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <!-- <data-table-column
+                                property="phoneNumber"
+                                header="Phone number"
+                                width="150px">
+                            </data-table-column> -->
+                            <!-- <data-table-column
+                                [property]="'jobTitle'"
+                                [header]="'Job title'"
+                                [visible]="false">
+                            </data-table-column> -->
+                            <data-table-column
+                                [property]="'dealStatus'"
+                                [header]="'dealStatus'"
+                                [width]="100"
+                                [resizable]="true">
+                                <ng-template #dataTableHeader let-item="item">
+                                    <span>Deal Status</span>
+                                </ng-template>
+                                <ng-template #dataTableCell let-item="item">
+                                    <!-- <span style="color: grey"> -->
+                                        <span *ngIf="item.dealStatus == 1">Active</span>
+                                        <span *ngIf="item.dealStatus == 2">Inactive</span>
+                                        <span *ngIf="item.dealStatus == 3">Expired</span>
+                                    <!-- </span> -->
+                                </ng-template>
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'businessStatus'"
+                                [header]="'businessStatus'"
+                                [width]="100"
+                                [resizable]="true">
+                                <ng-template #dataTableHeader let-item="item">
+                                    <span>Business Status</span>
+                                </ng-template>
+                                <ng-template #dataTableCell let-item="item">
+                                    <!-- <span style="color: grey"> -->
+                                        <span *ngIf="item.businessStatus == 1">Active</span>
+                                        <span *ngIf="item.businessStatus == 2">Expired</span>
+                                        <!-- <span *ngIf="item.dealStatus == 3">Expired</span> -->
+                                    <!-- </span> -->
+                                </ng-template>
+                            </data-table-column>
+                            <data-table-column
+                                header="Actions">
+                                <ng-template #dataTableHeader let-item="item">
+                                Actions
+                                </ng-template>
+                                <ng-template #dataTableCell let-item="item">
+                                        <button type="button" class="btn btn-sm btn-success margin-inline" [disabled]="item.businessStatus == 2" [routerLink]="['/manage-deal',item.dealId,item.businessId]"><i class="fa fa-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-default margin-inline" [disabled]="item.businessStatus == 2" *ngIf="item.dealStatus == 1" (click)="activeDeactive(item,false)"><i class="fa fa-recycle"></i></button>
+                                        <button type="button" class="btn btn-sm btn-warning margin-inline" [disabled]="item.businessStatus == 2" *ngIf="item.dealStatus == 2" (click)="activeDeactive(item,true)"><i class="fa fa-recycle"></i></button>
+                                        <button type="button" class="btn btn-sm btn-danger margin-inline"  [disabled]="item.businessStatus == 2" title="delete" (click)="deleteDeals(item)"><i class="fa fa-trash"></i></button>
+                                    <!-- <button type="button" class="btn btn-sm btn-success margin-inline" [routerLink]="['/add-category']"><i class="fa fa-pencil"></i></button> -->
+                                    <!-- <button (click)="carClicked(item)" class="btn btn-sm btn-default">Buy</button> -->
+                                </ng-template>
+                            </data-table-column>
+                        </data-table>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 text-center">
+      <!-- <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalUsers" [(page)]="currentPage" [(pageSize)]="pageSize" [boundaryLinks]="true" [(maxSize)]="maxSize" (pageChange)="pageChange(currentPage,pageSize)"></ngb-pagination> -->
+      <!-- <ngb-pagination class="d-flex justify-content-center" [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination> -->
+    </div>
+  </div>
+</div>
+

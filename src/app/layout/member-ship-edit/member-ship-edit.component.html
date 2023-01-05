@@ -1,0 +1,40 @@
+<!-- <p>
+  member-ship-edit works!
+</p> -->
+<div>
+  <div class="card-header header-pagetitle">
+      Edit Membership
+  </div>
+
+  <form class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="username">Name</label>
+        <div class="input-group">
+          <input type="text" name="username" class="form-control" [(ngModel)]="memberShip.name" placeholder="Username" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="email">Price</label>
+        <div class="input-group">
+          <input type="text" name="email" class="form-control" [(ngModel)]="memberShip.value" placeholder="price">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="first_name">Description</label>
+        <div class="input-group">
+          <!-- <input type="text" name="first_name" class="form-control" [(ngModel)]="memberShip.firstName" placeholder="First Name"> -->
+          <textarea [(ngModel)]="memberShip.description" class="form-control" rows="5" cols="5" name="description"></textarea>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-12">
+      <button type="button" class="btn btn-outline-dark" (click)="submit()">Submit</button>
+    </div>
+  </form>
+</div> 

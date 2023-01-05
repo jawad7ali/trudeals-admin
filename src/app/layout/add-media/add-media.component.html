@@ -1,0 +1,40 @@
+<div>
+  <div class="card-header header-pagetitle">
+      Add Media
+  </div>
+
+  <form class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="dateOfBirth">Upload Image</label>
+        <div class="row">
+          <div class="col-md-3" *ngIf="media.imageUrl">
+            <div class="upload-img">
+              <!-- <img class="img-fluid" src="assets/images/slider1.jpg" alt="slider"> -->
+              <img class="img-fluid" src="{{media.imageUrl}}" alt="slider">
+              <button type="button" (click)="deleteImage()" class="remove-images"><i class="fa fa-times" aria-hidden="true"></i> Remove Image</button>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="uploadimgs">
+              <label>Click to upload Media</label>
+              <input type="file" name="media" (change)="imageUpload($event)" id="medias">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <div class="input-group">
+          <input type="text" name="name" class="form-control" [(ngModel)]="media.title" placeholder="name" maxlength="25" minlength="2">
+        </div>
+      </div>
+    </div>
+   
+    <div class="col-md-12">
+      <button class="btn themesbtn" type="button" (click)="submit()">Submit</button>
+    </div>
+  </form>
+</div>

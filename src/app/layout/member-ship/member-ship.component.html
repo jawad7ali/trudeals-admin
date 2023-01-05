@@ -1,0 +1,71 @@
+<div>
+  <div class="card-header header-pagetitle">    
+      Membership                  
+      <!-- <button type="button" class="btn themesbtn" [routerLink]="['/manage-member-ship','']">Add location</button> -->
+  </div>
+  <div>
+  <div class="row">
+      <div class="col col-xl-12 col-lg-12">
+          <div class="card mb-3">
+              <div class="row form-group marginhead">
+                  <div class="col-md-12">
+                  </div>
+             
+
+              <div class="card-responsive">
+               <div class="card-body table-responsive">
+                  <div>
+                      <data-table     
+                          [items]="memberShips"
+                          [itemCount]="itemCount"
+                          [pagination] = true
+                          [pageLimits]="limits"
+                          (reload)="reloadItems($event)">
+                          <data-table-column
+                              [property]="'name'"
+                              [header]="'Name'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              [property]="'description'"
+                              [header]="'Description'"
+                              [sortable]="true"
+                              [width]="400"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              [property]="'value'"
+                              [header]="'Price ($)'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              [property]="'days'"
+                              [header]="'Validity (Days)'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              header="Actions">
+                              <ng-template #dataTableHeader let-item="item">
+                              <i>Actions</i>
+                              </ng-template>
+                              <ng-template #dataTableCell let-item="item">
+                                  <button type="button" class="btn btn-sm btn-success margin-inline" [routerLink]="['/manege-member-ship',item.id]"><i class="fa fa-pencil"></i></button>
+                              </ng-template>
+                          </data-table-column>
+                      </data-table>
+                   </div>
+              </div>
+          </div>
+          </div>
+      </div>
+  </div>
+  <!-- <div class="text-center col col-xl-12 col-lg-12">
+      <ngb-pagination class="d-flex justify-content-center" [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
+  </div> -->
+  </div>
+</div>
+</div>
+

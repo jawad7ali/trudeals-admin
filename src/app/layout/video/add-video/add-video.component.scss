@@ -1,0 +1,30 @@
+.btn-animation {
+  position: relative;
+}
+
+.btn-animation::before {
+  content: "";
+  animation-duration: 0.5s;
+  animation-name: animation-circle;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 3px solid;
+  border-color: deepskyblue transparent transparent transparent;
+  border-radius: 35px;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@keyframes animation-circle {
+  0% {transform: rotate(0);}
+  50% {transform: rotate(180deg);}
+  100% {transform: rotate(360deg);}
+}

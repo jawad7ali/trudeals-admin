@@ -1,0 +1,98 @@
+.uploadbrochure, .business_image {
+    position: relative;
+}
+.uploadbrochure .removepdf, .business_image .removepdf {
+    position: absolute;
+    right: 7px;
+    top: 2px;
+    cursor: pointer;
+}
+
+.uploadbusinesseimgs {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;        background: #020202de;
+    width: 100%;
+    padding-top: 3px;
+    color: #fff;
+}
+.uploadbusinesseimgs input[type="file"] {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
+.memberships_box {
+    margin-bottom: 30px;
+    margin-top: 5px;
+    background: #fff;
+    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.1);
+    transition: all .3s ease;
+    text-align: center;
+    padding: 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 0;
+    margin: 20px 0;    padding-bottom: 20px;    cursor: pointer;
+}
+.memberships_box .head {
+    background: #c07f38;
+    padding: 20px;
+}
+.memberships_box .head p {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 15px;margin-bottom: 15px;
+}
+.memberships_box:hover {
+    box-shadow: 0px 15px 20px 0px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+}
+.memberships_box .head h1 {
+    font-size: 52px;
+    color: #fff;
+    font-weight: bold;    margin-bottom: 0;
+}
+.memberships_box .head h1 sup{
+    font-size: 20px;
+    top: -1.5em;
+    font-weight: 500;
+    margin-right: 5px;
+}
+.memberships_box .textpalne {
+    margin: 20px;
+}
+.memberships_box .textpalne h1 {
+    font-size: 22px;
+}
+.hr {
+    border-bottom: 1px solid #e8e8e8;
+    margin: 10px 40px;
+}
+.memberships_box button.btn{
+      border-radius: 0;
+    text-transform: uppercase;
+    margin: 0;
+    background: transparent;
+    color: #c07f38;
+    border: 2px solid;
+    width: 80%;
+}
+.membershipscards {
+    border: 2px solid #e6e6e6;
+    border-radius: 7px;
+    background-color: #FAFAFA;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.memberships_box.onselect {
+    border: 1px solid #c07f38;
+}
+.action_bottom .btn {
+    background: #c07f38;
+    color: #fff;
+}

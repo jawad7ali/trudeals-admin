@@ -1,0 +1,5 @@
+/dist
+/log
+dist-backup.tar
+src/environments/env.ts
+node_modules

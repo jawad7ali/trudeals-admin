@@ -1,0 +1,45 @@
+<div>
+  <div class="card-header header-pagetitle">
+    Video Library
+      <button type="button" (click)="toggle()">Add Video</button>
+  </div>
+    <app-add-video
+            (onSubmit)="onSubmit($event)"
+            (onChangeOrder)="onChangeOrder($event)"
+            [place]="'newVideo'"
+            *ngIf="isOpenAddNewVideo"
+            [maxPosition]="maxPosition"
+            [video]="formNewVideo"></app-add-video>
+  <div class="row">
+    <div class="no_records" *ngIf="videoList.length == 0">No media found</div>
+    <div class="col-lg-2 col-md-3 col-sm-2 media-library" *ngFor="let video of videoList">
+      <button (click)="open(content,video)">
+          <img class="img-fluid" src="assets/images/loading_image.png"
+               [lazyLoad]="video.poster"
+               [useSrcset]="true">
+          <p>{{video.title}}</p>
+      </button>
+        <a class="media_remove" (click)="deleteVideo(video)" alt="move trash"><i
+                class="fa fa-trash"></i></a>
+    </div>
+
+
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modal-basic-title">Video Details</h5>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <app-add-video
+                    (onSubmit)="onSubmit($event)"
+                    (onChangeOrder)="onChangeOrder($event)"
+                    [place]="'modal'"
+                    [maxPosition]="maxPosition"
+                    [video]="video"></app-add-video>
+        </div>
+    </ng-template>
+  </div>
+</div>
+

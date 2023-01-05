@@ -1,0 +1,73 @@
+<form>
+  <div class="row">
+    <div class="col-md-12 mediapopupimg">
+      <div class="form-group">
+        <label>Main video</label>
+        <div class="input-group">
+  <mat-video src="{{video?.src}}"></mat-video>
+          <mat-video *ngIf="video.src" class="img-fluid" title="{{video?.title}}" [autoplay]="false" [preload]="true" [fullscreen]="true" [download]="true" color="accent" spinner="spin" poster="{{video?.poster}}">
+            <source matVideoSource src="{{video?.src}}" type="video/mp4">
+          </mat-video>
+        </div>
+      </div>
+      <div class="newmedia_upload" >
+        <input type="file" name="src" (change)="videoUpload($event, 'src')" id="src">Upload Main Video
+      </div>
+      <div class="form-group">
+        <label>Webm video</label>
+        <div class="input-group">
+          <mat-video *ngIf="video.src_webm" class="img-fluid" title="{{video?.title}}" [autoplay]="false" [preload]="true" [fullscreen]="true" [download]="true" color="accent" spinner="spin" poster="{{video?.poster}}">
+            <source matVideoSource src="{{video?.src_webm}}" type="video/webm">
+          </mat-video>
+        </div>
+      </div>
+      <div class="newmedia_upload" >
+        <input type="file" name="src_webm" (change)="videoUpload($event, 'src_webm')" id="src_webm">Upload Webm Video
+      </div>
+    </div>
+    <div class="col-md-12 mediapopupimg">
+      <div class="form-group">
+        <label>Poster</label>
+        <div class="input-group">
+          <img *ngIf="video.poster" class="img-fluid" src="assets/images/loading_image.png"
+               [lazyLoad]="video?.poster"
+               [useSrcset]="true">
+        </div>
+      </div>
+      <div class="newmedia_upload" >
+        <input type="file" name="poster" (change)="posterUpload($event)" id="poster">Upload New Poster
+      </div>
+    </div>
+    <div class="col-md-12 mediapopupimg">
+    </div>
+    <div class="col-md-12 mediapopupimg">
+      <div class="form-group">
+        <label for="position">Position</label>
+        <div class="input-group">
+          <input type="number" min="1" step="1" name="position" [(ngModel)]="video.position"
+                 class="form-control" disabled placeholder="Position">
+          <div *ngIf="place != 'newVideo'" class="btn-group" [ngClass]="{'btn-animation': isLoading}" role="group" aria-label="Basic example">
+            <button (click)="changeOrder('decrease')" [disabled]="video.position <= 1 || isLoading" type="button" class="btn btn-secondary"><i class="fa fa-minus"></i></button>
+            <button (click)="changeOrder('increase')" [disabled]="maxPosition == video.position ||isLoading" type="button" class="btn btn-secondary"><i class="fa fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <div class="input-group">
+              <input type="text" name="name" [(ngModel)]="video.title"
+                     class="form-control" placeholder="Name">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<button type="button" class="btn btn-outline-dark" (click)="submit(place)">
+  Save
+</button>

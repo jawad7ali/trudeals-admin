@@ -1,0 +1,54 @@
+<div class="card-header header-pagetitle">
+   FAQs 
+   <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Add Question</button>-->
+    <button class="btn btn-lg btn-outline-primary" (click)="openAddQuestion(content)">Add Question</button>
+</div>
+<div class="faqsbox" *ngFor="let faq of faqList">
+  <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+    <ngb-panel>    
+      <ng-template ngbPanelTitle>
+        <span>{{faq.question}}</span>
+        <button (click)="deleteFaq(faq)" class="btn btndelet">Delete</button>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        {{faq.answer}}
+        <button class="btn btnupdate" (click)="open(content,faq)">Update</button>
+      </ng-template>
+    </ngb-panel>
+    
+  </ngb-accordion>
+  <nav class="deals_pagination" *ngIf="totalFaq > pageSize">
+    <ngb-pagination [collectionSize]="totalFaq" [(page)]="currentPage" [(pageSize)]="pageSize" [boundaryLinks]="false" [(maxSize)]="maxSize" (pageChange)="pageChange(currentPage,pageSize)"></ngb-pagination>
+  </nav>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Question</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Question</label>
+        <div class="input-group">
+          <input type="text" name="question" class="form-control" [(ngModel)]="faq.question" placeholder="Question">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Answer</label>
+        <div class="input-group">
+          <textarea rows="5" cols="5" name="answer" class="form-control" [(ngModel)]="faq.answer" placeholder="Answer"></textarea>
+        </div>
+      </div>
+      
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="submit()">Submit</button>
+  </div>
+</ng-template>
+
+

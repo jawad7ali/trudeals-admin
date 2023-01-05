@@ -1,0 +1,81 @@
+<div>
+    <div class="card-header header-pagetitle">
+        Locations
+        <button type="button" class="btn themesbtn" [routerLink]="['/manage-location','add']">Add location</button>
+    </div>
+    <div>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="row form-group marginhead">
+                    <div class="col-md-12">
+                        <!-- <input type="text" name="searchUser" class="form-control input-underline col-md-4" id="searchUser" placeholder="Search" [(ngModel)]="filter" (ngModelChange)="search($event)"> -->
+                        <input type="text" name="searchUser" class="form-control input-underline col-md-4 pull-right" id="searchUser" [(ngModel)]="filter" placeholder="Search" (keyup)="searchLocation()"/>
+                    </div>
+
+
+                <div class="card-responsive">
+                 <div class="card-body table-responsive">
+
+                    <span class="no_records" *ngIf="totalLocation == 0">No location available. Kindly add location by clicking on add location button.</span>
+                    <div *ngIf="totalLocation > 0">
+                        <data-table
+                            [items]="locations"
+                            [itemCount]="itemCount"
+                            [pagination] = true
+                            [pageLimits]="limits"
+                            [indexColumn]= false
+                            (reload)="reloadItems($event)">
+                            <data-table-column
+                                [property]="'name'"
+                                [header]="'Name'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'createdAt'"
+                                [header]="'Created On'"
+                                [sortable]="true"
+                                [resizable]="true">
+                                <ng-template #dataTableCell let-item="item">
+                                    <span>{{ item.createdAt | date:'yyyy-MM-dd' }}</span>
+                                </ng-template>
+                            </data-table-column>
+                            <data-table-column
+                                [property]="'status'"
+                                [header]="'Status'"
+                                [width]="100"
+                                [resizable]="true">
+                                <!-- <ng-template #dataTableHeader let-item="item">
+                                    <span style="color: rgb(232, 0, 0)">Active</span>
+                                </ng-template> -->
+                                <ng-template #dataTableCell let-item="item">
+                                    <!-- <span style="color: grey"> -->
+                                    <span *ngIf="item.status == 1">Active</span>
+                                    <span *ngIf="item.status == 0">Inactive</span>
+                                    <!-- </span> -->
+                                </ng-template>
+                            </data-table-column>
+                            <data-table-column
+                                header="Actions">
+                                <ng-template #dataTableHeader let-item="item">
+                                Actions
+                                </ng-template>
+                                <ng-template #dataTableCell let-item="item">
+                                    <button type="button" class="btn btn-sm btn-success margin-inline" [routerLink]="['/manage-location',item.id]"><i class="fa fa-pencil"></i></button>
+                                    <button type="button" class="btn btn-sm btn-danger margin-inline" *ngIf="item.status == 1" (click)="activeDeactive(item,false)"><i class="fa fa-trash"></i></button>
+                                    <button type="button" class="btn btn-sm btn-warning margin-inline" *ngIf="item.status == 0" (click)="activeDeactive(item,true)"><i class="fa fa-recycle"></i></button>
+                                    <!-- <button (click)="carClicked(item)" class="btn btn-sm btn-default">Buy</button> -->
+                                </ng-template>
+                            </data-table-column>
+                        </data-table>
+                     </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</div>
+

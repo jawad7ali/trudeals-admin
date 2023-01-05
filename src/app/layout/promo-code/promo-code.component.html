@@ -1,0 +1,98 @@
+<div>
+  <div class="card-header header-pagetitle">
+    Promo Code
+    <button type="button" class="btn btn-outline-dark" [routerLink]="['/manage-promocode','add']">Add Promocode</button>
+  </div>
+
+  <div class="row">
+      <div class="col col-xl-12 col-lg-12">
+          <div class="card mb-3">
+              <div class="row form-group marginhead">
+                  <div class="col-md-12">
+                      <input type="text" name="searchPromoCode" class="form-control input-underline col-md-4 pull-right" id="searchPromoCode" placeholder="Search" [(ngModel)]="filter" (keyup)="searchPromoCode()">
+                  </div>
+
+              <div class="card-body table-responsive">
+
+                  <span class="no_records" *ngIf="totalPromoCode == 0">No promo code available. Kindly add promo code by clicking on add promo code button.</span>
+                  <div *ngIf="totalPromoCode > 0">
+                      <!-- <span *ngIf="News.length == 0">No news available. Kindly add news by clicking on add news button.</span> -->
+                      <data-table
+                          [items]="PromoCodes"
+                          [itemCount]="totalPromoCode"
+                          [pagination] = true
+                          [pageLimits]="limits"
+                          [indexColumn]= false
+                          (reload)="reloadItems($event)">
+                          <data-table-column
+                              [property]="'code'"
+                              [header]="'Promo Code'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              [property]="'membershipName'"
+                              [header]="'Membership'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              [property]="'durationInMonth'"
+                              [header]="'duration'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+
+                          <data-table-column
+                              [property]="'totalUsed'"
+                              [header]="'Total Promo Code'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              [property]="'usageLimit'"
+                              [header]="'Used'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              [property]="'startDate'"
+                              [header]="'Start Date'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              [property]="'expireDate'"
+                              [header]="'End Date'"
+                              [sortable]="true"
+                              [resizable]="true">
+                          </data-table-column>
+                          <data-table-column
+                              header="Actions">
+                              <ng-template #dataTableHeader let-item="item">
+                              Actions
+                              </ng-template>
+                              <ng-template #dataTableCell let-item="item">
+                                  <!-- <button type="button" class="btn btn-sm btn-info margin-inline" title="view" (click)="open(content,item)"><i class="fa fa-eye"></i></button> -->
+                                  <button type="button" class="btn btn-sm btn-success margin-inline" title="edit" [routerLink]="['//manage-promocode',item.id]"><i class="fa fa-pencil"></i></button>
+                                  <button type="button" class="btn btn-sm btn-default margin-inline" title="hold" *ngIf="item.status == 1" (click)="activeDeactive(item,false)"><i class="fa fa-recycle"></i></button>
+                                  <button type="button" class="btn btn-sm btn-warning margin-inline" title="publish" *ngIf="item.status == 2" (click)="activeDeactive(item,true)"><i class="fa fa-recycle"></i></button>
+                                  <button type="button" class="btn btn-sm btn-danger margin-inline" title="delete" (click)="deletePromoCode(item)"><i class="fa fa-trash"></i></button>
+                                  <!-- <button (click)="carClicked(item)" class="btn btn-sm btn-default">Buy</button> -->
+                              </ng-template>
+                          </data-table-column>
+                      </data-table>
+                   </div>
+              </div>
+          </div>
+      </div>
+  </div>
+      <!-- <div class="col-md-12 text-center">
+          <ngb-pagination class="d-flex justify-content-center" [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
+      </div> -->
+  </div>
+
+
+
+
+</div>

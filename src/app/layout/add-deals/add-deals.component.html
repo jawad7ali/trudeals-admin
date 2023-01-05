@@ -1,0 +1,387 @@
+<div >
+  <div class="card-header header-pagetitle" *ngIf="!deal.id">
+      Add Deals
+  </div>
+  <div class="card-header header-pagetitle" *ngIf="deal.id">
+      Edit Deals
+  </div>
+
+ <div class="manage-form business_forms deals_forms">
+    <aw-wizard navigationMode="semi-strict">
+      <aw-wizard-step stepTitle="Deal info">
+      <form #dealStepOneForm="ngForm" (ngSubmit)="dealStep(1)">
+        <div class="col-md-12">
+
+          <div class="form-group offer_store_name">
+            <label for="offer_store_name">Business name <span class="required">*</span></label>
+
+            <input class="form-control" type="text" name="businessOwner" placeholder="Search business" [(ngModel)]="searchBusiness" (keyup)="searchDealsOwner()" (blur)="closeBusinessSuggestion()" name="search" [readonly]="deal.id" autocomplete="off"/>
+            <!-- <div> -->
+                <ul class="dropdown_option">
+                  <li (mousedown)="selectedBusiness(business)" *ngFor="let business of businessList" value= "{{business.businessId}}">{{business.businessName}} ({{business.businessUniqueId}})</li>
+                  <!-- <li (mousedown)="selectedUser(owner)" *ngFor="let owner of ownerList" value= "{{owner.id}}">{{owner.firstName}} {{owner.lastName}} ({{owner.businessId}})</li> -->
+                </ul>
+            <!-- </div> -->
+          </div>
+          <div class="form-group">
+              <label for="offer_title">Deal title <span class="required">*</span></label>
+              <input type="text" name="title" [(ngModel)]="deal.title" #title="ngModel" id="offer_title" value="" class="form-control" placeholder="Deal title" minlength = "1" required>
+              <span class="errormsg" *ngIf="title.dirty || title.touched">
+                <b *ngIf="title.errors?.required">Deal title required</b>
+                <b *ngIf="title.errors?.minlength">Deal title must be of atleast 1 character. </b>
+                <b *ngIf="title.errors?.maxlength">Deal title must be lessthan 40 character. </b>
+              </span>
+            </div>
+            <div class="form-group">
+              <label for="offer_description">Deal description<span class="required">*</span></label>
+              <ckeditor
+                [(ngModel)]="deal.description"
+                [config]="ckEditorConfig"
+                [readonly]="false"
+                debounce="500"
+                name="description">
+              </ckeditor>
+
+            </div>
+            <div class="form-group">
+              <label for="offer_description">Deal terms and conditions</label>
+              <ckeditor
+                [(ngModel)]="deal.tnc"
+                [config]="ckEditorConfig"
+                [readonly]="false"
+                debounce="500"
+                name="tnc" >
+              </ckeditor>
+              <!-- <textarea [(ngModel)]="deal.tnc" class="form-control" rows="5" autocomplete="off" cols="5" name="tnc" ></textarea> -->
+            </div>
+
+        </div>
+        <div class="stepbuttons">
+          <button type="submit" (click)="scrollToTop()" awNextStep [disabled] ="!dealStepOneForm.form.valid">Next</button>
+        </div>
+      </form>
+      </aw-wizard-step>
+      <aw-wizard-step stepTitle="Deal Image" awOptionalStep>
+        <form #dealStepTwoForm="ngForm" (ngSubmit)="dealStep(2)">
+            <div class="col-md-12">
+                <div class="form-group advertisedeal">
+                  <label class="makefuther" for="featured_item">Make your Deal a "Featured Deal" </label>
+                  <div class="squarcheck">
+                      <input type="checkbox" id="squarcheck1" [(ngModel)]="deal.isFeatured" name="check">
+                      <label for="squarcheck1"></label>
+                  </div>
+                  <p>I would like to advertise this deal as a "Featured Deal" allowing an additional 10% Off to any customer who &amp; promotes my Deal.</p>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+              <div class="form-group">
+                  <label for="offer_cat">Choose a category <span class="required">*</span></label>
+                  <select name="offer_cat" id="offer_cat" [(ngModel)]="deal.categoryId" name="categoryId" #categoryId="ngModel" class="form-control" required>
+                      <option value="" disabled>- Select -</option>
+                    <option *ngFor="let category of categoryList" value= "{{category.id}}">{{category.name}}</option>
+                  </select>
+                  <span class="errormsg" *ngIf="categoryId.dirty || categoryId.touched">
+                      <b *ngIf="categoryId.errors?.required">category is required</b>
+                  </span>
+              </div>
+            </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="address">Choose Your state<span class="required">*</span> :</label>
+                    <select name="stateId" id="state" class="form-control" [(ngModel)]="deal.stateId" #stateId="ngModel" (ngModelChange)="selectCity(deal.stateId)" required disabled>
+                        <option value="" disabled>Select Your state</option>
+                        <option *ngFor="let location of locationList" value= "{{location.id}}">{{location.name}}</option>
+                    </select>
+                    <span class="errormsg" *ngIf="stateId.dirty || stateId.touched">
+                        <b *ngIf="stateId.errors?.required">state is required</b>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="address">Choose Your city<span class="required">*</span> :</label>
+                    <select name="cityId" id="city" class="form-control" [(ngModel)]="deal.cityId" #cityId="ngModel" (ngModelChange)="selectedCity(deal.cityId)" required disabled>
+                      <option value="" disabled>Select City</option>
+                      <option *ngFor="let city of cityList" value= "{{city.id}}">{{city.name}}</option>
+                    </select>
+                    <span class="errormsg" *ngIf="cityId.dirty || cityId.touched">
+                        <b *ngIf="cityId.errors?.required">city is required</b>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <label for="offer_featured_image">Deal image <span class="required">*</span></label>
+                </div>
+                  <div class="col-sm-4 deal_image" *ngIf="deal.imageUrl">
+                    <div class="deal_images">
+                      <img class="card-image" src="{{deal.imageUrl}}" >
+                      <!-- <span class="removepdf"><i class="fa fa-times" aria-hidden="true"></i></span> -->
+                      <div class="uploadbusinesseimgs">
+                         <label><i class="fa fa-pencil-square-o"></i> Edit</label>
+                          <app-media-selection [profile]="profile" (imageSelected)="receiveImage($event)"></app-media-selection>
+                      </div>
+                    </div>
+                  </div>
+                <div class="col-sm-4 deal_image" *ngIf="!deal.imageUrl">
+                  <div class="uploadbusinesseimg">
+                    <app-media-selection [profile]="profile" (imageSelected)="receiveImage($event)"></app-media-selection>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+            <div class="stepbuttons">
+              <button type="submit" (click)="scrollToTop()" awPreviousStep>Previous</button>
+              <button type="submit" (click)="scrollToTop()" awNextStep [disabled] ="!dealStepTwoForm.form.valid">Next</button>
+            </div>
+            </div>
+        </form>
+
+      </aw-wizard-step>
+
+      <aw-wizard-step stepTitle="Deal Price">
+        <form #dealStepThreeForm="ngForm" (ngSubmit)="dealStep(3)">
+          <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="offer_start">Deal start date <span class="required">*</span></label>
+              <!-- <my-date-picker name="startDate" [options]="myDatePickerOptions" [placeholder]="datePlaceholder"
+                      [(ngModel)]="date.startDate" (dateChanged)="onStartDateChanged($event)" #startDate="ngModel" required></my-date-picker> -->
+
+              <div class="input-group-append mybdatepicker">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="startDate" #startDealDate="ngModel" [(ngModel)]="deal.startDate" ngbDatepicker #startDate="ngbDatepicker" required valid>
+                <button class="calendar" (click)="startDate.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+              </div>
+              <span class="errormsg" *ngIf="startDealDate.dirty || startDealDate.touched">
+                  <b *ngIf="startDealDate.errors?.required">start date is required</b>
+                  <b *ngIf="(!startDealDate.errors?.required) && (startDealDate.status == 'INVALID')">please enter valid date</b>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="offer_expire">Deal expire date <span class="required">*</span></label>
+
+              <div class="input-group-append mybdatepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="endDate" #endDealDate="ngModel" [(ngModel)]="deal.expireDate" ngbDatepicker #endDate="ngbDatepicker" required valid>
+                  <button class="calendar" (click)="endDate.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+              </div>
+              <span class="errormsg" *ngIf="endDealDate.dirty || endDealDate.touched">
+                <b *ngIf="endDealDate.errors?.required">end date is required</b>
+                <b *ngIf="(!endDealDate.errors?.required) && (endDealDate.status == 'INVALID')">please enter valid date</b>
+                <b *ngIf="(!endDealDate.errors?.required) && (date.startDate > date.endDate)">start date cannot be greater than end date</b>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="no_of_deals_offered">Number of Deals Offered <span class="required">*</span></label>
+              <input type="number" name="dealOffered" id="no_of_deals_offered" value="" class="form-control" [(ngModel)]="deal.dealOffered" min="1" #dealOffered="ngModel" required>
+              <span class="errormsg" *ngIf="dealOffered.dirty || dealOffered.touched">
+                  <b *ngIf="dealOffered.errors?.required">Number of deal required</b>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="retail_value">Retail value <span class="required">*</span></label>
+              <input type="number" name="retailValue" id="retail_value" value="" class="form-control" [(ngModel)]="deal.retailValue" min="1" #retailValue="ngModel" (ngModelChange)="calculateOffPercent(deal.retailValue)" required>
+              <span class="errormsg" *ngIf="retailValue.dirty || retailValue.touched">
+                  <b *ngIf="retailValue.errors?.required">retail value required</b>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="deal_price">Deal price <span class="required">*</span></label>
+              <input type="number" name="dealPrice" id="deal_price" value="" class="form-control" [(ngModel)]="deal.dealPrice" min="1" #dealPrice="ngModel" (ngModelChange)="calculateOffPercent(deal.dealPrice)" required>
+              <span class="errormsg" *ngIf="dealPrice.dirty || dealPrice.touched">
+                  <b *ngIf="dealPrice.errors?.required">deal price required</b>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="percent_off">% Off </label>
+              <input type="text" name="percent_off" id="percent_off"  value="" class="form-control" [(ngModel)]="deal.offerPercentage" readonly>
+            </div>
+          </div>
+          </div>
+          <div class="stepbuttons">
+            <button type="submit" (click)="scrollToTop()" awPreviousStep>Previous</button>
+            <button type="submit" (click)="scrollToTop()" awNextStep [disabled] ="!dealStepThreeForm.form.valid">Next</button>
+        </div>
+        </form>
+      </aw-wizard-step>
+
+      <aw-wizard-step stepTitle="Deal Type">
+      <form #dealStepFourForm="ngForm" (ngSubmit)="submit()">
+          <div class="col-md-12">
+                <div class="form-group">
+                  <label for="coupon_type">Type of Deal <span class="required">*</span></label>
+                  <select name="dealType" id="coupon_type" class="form-control" (ngModelChange)="DealTypeChange()" [(ngModel)]="deal.dealType" #dealType="ngModel" required>
+                      <option value="" disabled>- Select -</option>
+                      <option value="SALE">Pay at point of Sale</option>
+                      <option value="CART">Link Deal to My Shopping Cart</option>
+                  </select>
+                  <span class="errormsg" *ngIf="dealType.dirty || dealType.touched">
+                      <b *ngIf="dealType.errors?.required">deal type is required</b>
+                  </span>
+                </div>
+                <div class="form-group" *ngIf="deal.dealType == 'CART'">
+                  <label for="promoCode">Promocode </label>
+                  <input type="text" name="promoCode" id="promoCode" value="" class="form-control" [(ngModel)]="deal.promoCode" #promoCode="ngModel" maxlength="15">
+                  <!-- <span class="errormsg" *ngIf="promoCode.dirty || promoCode.touched">
+                      <b *ngIf="promoCode.errors?.required">promo code of deal required</b>
+                  </span>   -->
+                </div>
+                <div class="form-group" *ngIf="deal.dealType == 'CART'">
+                  <label for="shoppingCartUrl">Shopping Cart Url <span class="required">*</span></label>
+                  <input type="text" name="shoppingCartUrl" id="shoppingCartUrl" value="" class="form-control" [(ngModel)]="deal.shoppingCartUrl" min="1" #shoppingCartUrl="ngModel" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" required>
+                  <span class="errormsg" *ngIf="shoppingCartUrl.dirty || shoppingCartUrl.touched">
+                    <b *ngIf="shoppingCartUrl.errors?.required">shopping cart url of deal required</b>
+                    <b *ngIf="shoppingCartUrl.errors && shoppingCartUrl.errors.pattern"> shopping cart url is invalid </b>
+                  </span>
+                </div>
+            </div>
+          <div class="stepbuttons">
+            <button class="previewdeal" type="button" (click)="open(content)" [disabled] ="!dealStepFourForm.form.valid">Preview Deal</button>
+            <button type="button" awPreviousStep>Previous</button>
+            <button type="submit" [disabled] ="!dealStepFourForm.form.valid">Finish</button>
+          </div>
+      </form>
+      </aw-wizard-step>
+    </aw-wizard>
+  </div>
+</div>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header popup_previewdealheader">
+      <h4 class="modal-title" id="modal-basic-title">{{deal.title}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+       <div class="row popup_previewdeal">
+        <div class="detail-content-inner aos-item" data-aos="fade-up">
+          <div id="product" class="copy-of-able-brewing-system detail-content">
+            <div class="detail-content-wrapper">
+              <div class="product-mainarea">
+                <div class="info-detail-pro clearfix row">
+                    <div class="col-lg-6" id="product-image">
+                      <div id="featuted-image" class="image featured">
+                          <img src="{{deal.imageUrl}}" alt="New Able Brewing System" />
+                      </div>
+                    </div>
+                    <div class="col-lg-6" id="product-information">
+                      <div class="detailinfo-top">
+                        <div class="row">
+                          <div class="col-4 sale-deals">
+                            <div class="icon"><i class="fa fa-clock-o"></i></div>
+                            <div class="text">Sale Ends</div>
+                            <div id="cstimer" class="is-countdown">
+                              <span class="countdown-row countdown-show3"><span class="countdown-section">{{deal.expireDate | date: 'dd/MM/yyyy' }}</span></span>
+                            </div>
+                          </div>
+                          <div class="col-4 customerbought">
+                            <div class="icon">
+                             <i class="fa fa-gift"></i>
+                            </div>
+                            <div class="text">Items Left</div>
+                            <div class="text">{{deal.dealOffered}}</div>
+                          </div>
+
+                          <div class="col-4 customerbought">
+                            <div class="icon"><i class="fa fa-users"></i></div>
+                            <div class="count">Bought</div>
+                            <div class="count">0</div>
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="variants">
+                      <div class="product-options " itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+                        <div class="purchase">
+                          <div class="price" id="price-preview">
+                            <span class="money">${{deal.dealPrice}}</span>
+                            <del><span class="money">${{deal.retailValue}}</span></del>
+                          </div>
+                        </div>
+
+                        <div class="discountshare">
+                          <h4 *ngIf="deal.dealType == 'SALE'"><strong>Share this Deal on:</strong></h4>
+                          <h4 *ngIf="deal.dealType == 'CART'"><strong>Share this Deal on:</strong></h4>
+
+                          <p *ngIf="deal.isFeatured">Receive an additional 10% Off the Deal by simply sharing it on your Facebook page, Twitter, or Google+ accounts.  </p>
+
+                          <!-- <h4 class="promo_code" *ngIf="deal.dealType == 'CART'">Promo Code: {{deal.promoCode}}</h4> -->
+                          <ul>
+
+                              <li>
+                                <a (click)="facebookShare()" class="s-facebook">
+                                  <i class="fa fa-facebook"></i>
+                                </a>
+                              </li>
+                              <li>
+                                <a (click)="popuptweet()" class="s-twitter">
+                                  <i class="fa fa-twitter"></i>
+                                </a>
+                              </li>
+                              <!-- <li>
+                                <a class="s-google">
+                                  <i class="fa fa-google-plus"></i>
+                                </a>
+                              </li> -->
+                              <li>
+                                <a class="s-pinterest">
+                                  <i class="fa fa-pinterest"></i>
+                                </a>
+                              </li>
+                            </ul>
+                        </div>
+
+                        <h5 class="promo_code" *ngIf="deal.dealType == 'CART'">PromoCode: <strong>{{deal.promoCode}}</strong></h5>
+                      </div>
+                    </div>
+
+                    <div class="wishlistCompare-content" >
+                      <div class="product-wishlist" *ngIf="deal.dealType == 'SALE'">
+                        <a title="Print to Redeem" class="wishlist wishlist-copy-of-able-brewing-system">
+                          <i class="fa fa-print" aria-hidden="true"></i> Print to Redeem
+                        </a>
+                      </div>
+                      <span class="u-border"></span>
+                      <div class="product-wishlist" *ngIf="deal.dealType == 'CART'">
+                        <a href="" target="_blank" title="Print to Redeem" class="wishlist wishlist-copy-of-able-brewing-system">
+                          <i class="fa fa-cart-plus" aria-hidden="true"></i> Buy Now
+                        </a>
+                      </div>
+                      <span class="u-border"></span>
+                      <div class="product-wishlist">
+                        <a title="Save for Later" class="compare compare-copy-of-able-brewing-system">
+                           <i class="zmdi zmdi-favorite-outline"></i> Save for Later
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                    <h4>Description </h4>
+                    <p [innerHTML]="deal.description">{{deal.description}}</p>
+                </div>
+                <div class="col-md-12" *ngIf="deal.tnc">
+                  <h4>Terms and Conditions </h4>
+                  <p [innerHTML]="deal.tnc">{{deal.tnc}}</p>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

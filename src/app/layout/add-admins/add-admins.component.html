@@ -1,0 +1,122 @@
+<div>
+  <div class="card-header header-pagetitle"*ngIf="!user.id">
+      Add User
+  </div>
+  <div class="card-header header-pagetitle" *ngIf="user.id">
+      Edit User
+  </div>
+
+  <form #addAdminForm="ngForm" (ngSubmit)="submit()" class="row adduser-form">
+
+    <div class="col-md-12">
+      <div class="form-group titledetails">
+        <label for="Subscription">User Details</label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <div class="input-group">
+          <input type="text" name="username" class="form-control" #username="ngModel" minlength="6" maxlength="15" autocomplete="off" [(ngModel)]="user.username" placeholder="Username" required>
+          <i class="fa fa-check" *ngIf="userNameAvailable == true && user.username.length >= 6"></i>
+          <i class="fa fa-times" *ngIf="userNameAvailable == false && user.username.length >= 6"></i>
+          <span class="errormsg" *ngIf="username.dirty || username.touched">
+            <b *ngIf="username.errors?.required">Username is required</b>
+            <b *ngIf="username.errors?.minlength"> Username must be of atleast 6 character. </b>
+            <b *ngIf="username.errors?.maxlength"> Username must be lessthan 15 character. </b>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-group">
+          <input type="text" name="email" class="form-control" [(ngModel)]="user.email" placeholder="Email" #email="ngModel" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [readonly]="user.id">
+          <span class="errormsg" *ngIf="email.dirty || email.touched">
+              <b *ngIf="email.errors?.required">Email is required</b>
+              <b *ngIf="email.errors && email.errors.pattern"> Email is invalid </b>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="first_name">First name</label>
+        <div class="input-group">
+          <input type="text" name="first_name" class="form-control" [(ngModel)]="user.firstName" #firstName="ngModel" minlength="2" maxlength="25" autocomplete="off" placeholder="First Name" required>
+          <span class="errormsg" *ngIf="firstName.dirty || firstName.touched">
+            <b *ngIf="firstName.errors?.required">First Name is required</b>
+            <b *ngIf="firstName.errors?.minlength"> First Name must be of atleast 2 character. </b>
+            <b *ngIf="firstName.errors?.maxlength"> First Name must be lessthan 25 character. </b>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="last_name">Last name</label>
+        <div class="input-group">
+          <input type="text" name="last_name" class="form-control" [(ngModel)]="user.lastName" placeholder="Last Name" #lastName="ngModel" minlength="2" maxlength="25" autocomplete="off" required>
+          <span class="errormsg" *ngIf="lastName.dirty || lastName.touched">
+              <b *ngIf="lastName.errors?.required">Last name is required</b>
+              <b *ngIf="lastName.errors?.minlength"> Last name must be of atleast 2 character. </b>
+              <b *ngIf="lastName.errors?.maxlength"> Last name must be lessthan 25 character. </b>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="text" class="form-control" id="phone" name="phoneNo" placeholder="Phone Number" value="" [(ngModel)]="user.phoneNo" #phoneNo=ngModel minlength = "10" maxlength="14" required>
+        <span class="errormsg" *ngIf="phoneNo.dirty || phoneNo.touched">
+          <b *ngIf="phoneNo.errors?.required">phone number is required</b>
+          <b *ngIf="phoneNo.errors?.minlength">phone number must be of atleast 10 character. </b>
+          <b *ngIf="phoneNo.errors?.maxlength">phone number must be lessthan 12 character. </b>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="address">Address</label>
+        <div class="input-group">
+          <input type="text" name="address" class="form-control" [(ngModel)]="user.address" placeholder="Address" #address="ngModel" minlength="2" maxlength="100" autocomplete="off" required>
+          <span class="errormsg" *ngIf="address.dirty || address.touched">
+              <b *ngIf="address.errors?.required">Address is required</b>
+              <b *ngIf="address.errors?.minlength">Address must be of atleast 2 character. </b>
+              <b *ngIf="address.errors?.maxlength">Address must be lessthan 100 character. </b>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="!user.id">
+      <div class="row">
+        <div class="col-md-12"> 
+        </div>
+        <div class="memberships_details col-md-4" *ngFor = "let memberShip of memberShips">
+            <!-- <input name="options" type="radio" [value]="1"  [(ngModel)]="model.options" ><br/> -->
+            <div class="memberships_box" (click) ="selectedMembership(memberShip.id)">
+              <div class="head">
+                <p>{{memberShip.name}} </p>
+                <h1><sup>$</sup>{{memberShip.value}}</h1>
+              </div>
+                <div class="textpalne">
+                  <h1>Validity</h1>
+                    <div class="hr"></div>
+                  <p>{{memberShip.days}} Days</p>
+                </div>
+              <button class="btn btn-outline-dark" type="button" >Click</button>
+            </div>
+        </div>
+        </div>
+      </div>
+
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-outline-dark" [disabled]="!addAdminForm.form.valid">Submit</button>
+    </div>
+  </form>
+</div>

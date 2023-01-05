@@ -1,0 +1,43 @@
+<!-- <p>
+  add-location works!
+</p> -->
+<div>
+  <div class="card-header header-pagetitle" *ngIf="!location.id">
+    Add Location
+  </div>
+  <div class="card-header header-pagetitle" *ngIf="location.id">
+    Edit Location
+  </div>
+
+  <form class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <div class="input-group">
+            <input class="form-control" [(ngModel)]="location.name" name="locationName" ngx-google-places-autocomplete [options]='"options"' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+          <!-- <input type="text" name="name" class="form-control" placeholder="Name"> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="Category">Parent Category</label>
+        <div class="input-group">
+          <input class="form-control" type="text" name="q" placeholder="Search location" [(ngModel)]="searchText" (keyup)="searchLocation()" (blur)="closeLocationSuggestion()" name="search" />
+          <div>
+            <ul>
+              <li (mousedown)="selectedLocation(location)" *ngFor="let location of locationList">{{location.name}}</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <button class="btn themesbtn" type="button" (click)="submit()">Submit</button>
+    </div>
+  </form>
+</div>
+

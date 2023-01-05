@@ -1,0 +1,107 @@
+<div>
+    <div class="card-header header-pagetitle">
+        Add Banner
+    </div>
+    <form class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="title">Title <span class="required">*</span></label>
+                <div class="input-group">
+                    <input type="text" name="title" class="form-control" placeholder="Title" [(ngModel)]="banner.title">
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="title">Hyperlink <span class="required">*</span></label>
+                <div class="input-group">
+                    <input type="text" name="hyperlink" class="form-control" placeholder="ex: https://www.example.com" [(ngModel)]="banner.hyperLink">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="offer_start">Start date <span class="required">*</span></label>
+                <div class="input-group-append mybdatepicker">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="startDate" #startDealDate="ngModel"
+                           [(ngModel)]="banner.startDate" ngbDatepicker #startDate="ngbDatepicker" valid>
+                    <button class="calendar" (click)="startDate.toggle()" type="button"><i class="fa fa-calendar"></i>
+                    </button>
+                </div>
+                <span class="errormsg" *ngIf="startDealDate.dirty || startDealDate.touched">
+            <!-- <b *ngIf="startDealDate.errors?.required">start date is required</b> -->
+            <b *ngIf="(!startDealDate.errors?.required) && (startDealDate.status == 'INVALID')">please enter valid date</b>
+        </span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="offer_expire">Expire date <span class="required">*</span></label>
+                <div class="input-group-append mybdatepicker">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="endDate" #endDealDate="ngModel"
+                           [(ngModel)]="banner.expireDate" ngbDatepicker #endDate="ngbDatepicker" valid>
+                    <button class="calendar" (click)="endDate.toggle()" type="button"><i class="fa fa-calendar"></i>
+                    </button>
+                </div>
+                <span class="errormsg" *ngIf="endDealDate.dirty || endDealDate.touched">
+          <b *ngIf="(!endDealDate.errors?.required) && (endDealDate.status == 'INVALID')">please enter valid date</b>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="address">State<span class="required">*</span>:</label>
+                <select name="state" id="state" class="form-control" [(ngModel)]="banner.stateId" #stateId="ngModel" (ngModelChange)="selectCity(banner.stateId)">
+                    <option value="" disabled>Select Your state</option>
+                    <option *ngFor="let location of locationList" value= "{{location.id}}">{{location.name}}</option>
+                <!-- <option value="AK">Alaska</option><option value="AL">Alabama</option><option value="AR">Arkansas</option><option value="AZ">Arizona</option><option value="CA">California</option><option value="CO">Colorado</option><option value="CT">Connecticut</option><option value="DC">District of Columbia</option><option value="DE">Delaware</option><option value="FL">Florida</option><option value="GA">Georgia</option><option value="HI">Hawaii</option><option value="IA">Iowa</option><option value="ID">Idaho</option><option value="IL">Illinois</option><option value="IN">Indiana</option><option value="KS">Kansas</option><option value="KY">Kentucky</option><option value="LA">Louisiana</option><option value="MA">Massachusetts</option><option value="MD">Maryland</option><option value="ME">Maine</option><option value="MI">Michigan</option><option value="MN">Minnesota</option><option value="MO">Missouri</option><option value="MS">Mississippi</option><option value="MT">Montana</option><option value="NC">North Carolina</option><option value="ND">North Dakota</option><option value="NE">Nebraska</option><option value="NH">New Hampshire</option><option value="NJ">New Jersey</option><option value="NM">New Mexico</option><option value="NV">Nevada</option><option value="NY">New York</option><option value="OH">Ohio</option><option value="OK">Oklahoma</option><option value="OR">Oregon</option><option value="PA">Pennsylvania</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option><option value="SD">South Dakota</option><option value="TN">Tennessee</option><option value="TX">Texas</option><option value="UT">Utah</option><option value="VA">Virginia</option><option value="VT">Vermont</option><option value="WA">Washington</option><option value="WI">Wisconsin</option><option value="WV">West Virginia</option><option value="WY">Wyoming</option>             -->
+            </select>
+            
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="address">City<span class="required">*</span>:</label>
+                <select name="cityId" id="city" class="form-control" [(ngModel)]="banner.cityId" #cityId="ngModel">
+                    <option value="" disabled>Select City</option>
+                    <option *ngFor="let city of cityList" value= "{{city.id}}">{{city.name}}</option>
+                </select>
+                <!-- <span class="errormsg" *ngIf="cityId.dirty || cityId.touched">
+                    <b *ngIf="cityId.errors?.required">City is required</b>
+                </span> -->
+            </div>
+        </div>
+        
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="Icons">Upload Image<span class="required">*</span></label>
+                <div class="row">
+                    <div class="col-md-3" *ngIf="banner.imageUrl">
+                        <div class="upload-img">
+                            <img class="img-fluid" [src]="banner.imageUrl" alt="slider">
+                            <button type="button" class="remove-images" (click)="removeImage()"><i class="fa fa-times"
+                                                                                                   aria-hidden="true"></i>
+                                Remove Image
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3" *ngIf="!banner.imageUrl">
+                        <div class="uploadimgs">
+                            <label>Click to upload Image</label>
+                            <input type="file" (change)="imageUpload($event)" name="medias" id="medias">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-outline-dark" type="button" (click)="submit()">Submit</button>
+        </div>
+    </form>
+</div>  
+

@@ -1,0 +1,73 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+    <div class="list-group">
+        <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
+        </a>
+        <a id="media-link" [routerLink]="['/media']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fa fa-picture-o"></i>&nbsp;{{ 'Media' | translate }}
+        </a>
+        <a id="category-link" [routerLink]="['/category']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fa fa-microchip"></i>&nbsp;{{ 'Category' | translate }}
+        </a>
+        <a id="location-link" [routerLink]="['/location']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-location-arrow"></i>&nbsp;{{ 'Location' | translate }}
+        </a>
+        <a id="usr-link" [routerLink]="['/users']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-users"></i>&nbsp;{{ 'Users' | translate }}
+        </a>
+        <a id="business-link" [routerLink]="['/business']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-cubes"></i>&nbsp;{{ 'Business' | translate }}
+         </a>
+        <a id="deals-link" [routerLink]="['/deals']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fa fa-tags"></i>&nbsp;{{ 'Deals' | translate }}
+        </a>
+        <a id="news-link" [routerLink]="['/news']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-newspaper-o"></i>&nbsp;{{ 'News' | translate }}
+        </a>
+        <a id="banner-link" [routerLink]="['/banners']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fa fa-sliders"></i>&nbsp;{{ 'Banners' | translate }}
+        </a>
+        <a id="member-link" [routerLink]="['/member-ship']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-comments"></i>&nbsp;{{ 'Membership' | translate }}
+        </a>
+        <a [routerLink]="['/FAQs']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-random"></i>&nbsp;{{ 'FAQs' | translate }}
+        </a>
+        <a [routerLink]="['/QnA']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-comments"></i>&nbsp;{{ 'Q & A' | translate }}
+        </a>
+        <a id="promocode-link" [routerLink]="['/promocode']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-comments"></i>&nbsp;{{ 'Promocode' | translate }}
+        </a>
+        <a id="video-link" [routerLink]="['/video']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-video-camera"></i>&nbsp;{{ 'Video' | translate }}
+        </a>
+        <a id="page-blocks-link" [routerLink]="['/page-blocks']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-book"></i>&nbsp;{{ 'Page Blocks' | translate }}
+        </a>
+		
+		<a id="pages-link" [routerLink]="['/pages']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-book"></i>&nbsp;{{ 'Privacy Policy' | translate }}
+        </a>
+
+        <div class="header-fields">
+
+            <div class="nested-menu">
+
+                <a class="list-group-item" (click)="addExpandClass('profile')">
+                    <span><i class="fa fa-user"></i> Admin <b class="caret"></b></span>
+                </a>
+                <li class="nested" [class.expand]="showMenu === 'profile'">
+                    <ul class="submenu">
+
+                        <li>
+                            <a class="dropdown-item" (click)="logout({})">
+                                <i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+    </div>
+</nav>

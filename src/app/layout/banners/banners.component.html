@@ -1,0 +1,42 @@
+<div>
+  <div class="card-header header-pagetitle">
+    Banners
+    <button type="button" class="btn btn-outline-dark" [routerLink]="['/manage-banner','add']">Add Banner</button>
+  </div>
+  <div>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="row form-group marginhead">
+                  <div class="col-md-12">
+                      <!-- <input type="text" name="searchUser" class="form-control input-underline col-md-4" id="searchUser" placeholder="Search" [(ngModel)]="filter" (ngModelChange)="search($event)"> -->
+                      <input type="text" name="searchUser" class="form-control input-underline col-md-4 pull-right" id="searchUser" placeholder="Search" [(ngModel)]="filter" (keyup)="searchBanner()">
+                  </div>
+
+                <div class="no_records" *ngIf="bannerList.length == 0">No banner found</div>
+                <div class="col-md-4" *ngFor="let banner of bannerList">
+                  <div class="banner_imags">
+                    <!-- <img class="img-fluid" [src]="banner.imageUrl"> -->
+                    <img class="img-fluid" src="assets/images/loading_image.png"
+                        [lazyLoad]="banner.imageUrl"
+                        [useSrcset]="true">
+                    <p>{{banner.title}}</p>
+                    <div class="bannerbtns">
+                      <button type="button" class="btn btn-sm btn-success margin-inline" [routerLink]="['/manage-banner',banner.id]"><i class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-sm btn-default margin-inline" *ngIf="banner.status == 1" (click)="activeDeactive(banner,false)"><i class="fa fa-recycle"></i></button>
+                      <button type="button" class="btn btn-sm btn-warning margin-inline" *ngIf="banner.status == 2" (click)="activeDeactive(banner,true)"><i class="fa fa-recycle"></i></button>
+                      <button type="button" class="btn btn-sm btn-danger margin-inline" title="delete" (click)="deleteBanner(banner)"><i class="fa fa-trash"></i></button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 text-center" *ngIf="totalBanner > pageSize">
+      <ngb-pagination [collectionSize]="totalBanner" [(page)]="currentPage" [(pageSize)]="pageSize" [boundaryLinks]="false" [(maxSize)]="maxSize" (pageChange)="pageChange(currentPage,pageSize)"></ngb-pagination>
+    </div>
+  </div>
+</div>
+
+
+

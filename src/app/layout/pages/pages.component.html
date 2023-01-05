@@ -1,0 +1,127 @@
+<div>
+    <div class="card-header header-pagetitle">
+    Privacy Policy
+    <!-- <button type="button" class="btn btn-outline-dark" [routerLink]="['/manage-news','add']">Add News</button> -->
+    </div>
+    <div>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="row form-group marginhead">
+                    <!--<div class="col-md-12">
+							<input type="text" name="searchUser" class="form-control input-underline col-md-4 pull-right" id="searchUser" placeholder="Search" [(ngModel)]="filter" (keyup)="searchNews()">
+						</div>
+					-->
+                <div class="card-body table-responsive table-pages">
+
+                    <span class="no_records" *ngIf="totalPages == 0">No pages available. Kindly add pages by clicking on add pages button.</span>
+                    <div *ngIf="totalPages > 0">
+			
+											   
+					    <data-table
+                            [items]="Pages"
+                            [itemCount]="itemCount"
+                            [pagination] = false
+                            [pageLimits]="limits"
+                            [indexColumn]= false
+                            (reload)="reloadItems($event)">
+                            <data-table-column
+                                [property]="'title'"
+                                [header]="'Title'"
+                                [sortable]="true"
+                                [resizable]="true">
+                            </data-table-column>
+                            
+                            <data-table-column
+                                [property]="'status'"
+                                [header]="'Status'"
+                                [width]="100"
+                                [resizable]="true">                                
+                                <ng-template #dataTableCell let-item="item">                                    
+                                    <span *ngIf="item.status == 1">Published</span>
+                                    <span *ngIf="item.status == 2">Draft</span>                                   
+                                </ng-template>
+                            </data-table-column>
+							
+                            <data-table-column
+                                header="Actions">
+                                <ng-template #dataTableHeader let-item="item">
+                                Actions
+                                </ng-template>
+                                <ng-template #dataTableCell let-item="item">                                    
+                                    <button type="button" class="btn btn-sm btn-success margin-inline" title="edit" [routerLink]="['/manage-pages',item?.id]"><i class="fa fa-pencil"></i></button>
+                                </ng-template>
+                            </data-table-column>
+														
+                        </data-table>
+						
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- <div class="col-md-12 text-center">
+            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
+        </div> -->
+    </div>
+</div>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">News Details</h5>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="row">
+          <!-- <div class="col-md-12 mediapopupimg">
+              <img class="img-fluid" src="{{media.imageUrl}}" alt="slider">
+              <div class="newmedia_upload">
+                <input type="file" name="media" [disabled]="media.isUse == true" (change)="imageUpload($event)" id="medias">Update New Media
+              </div>
+            </div> -->
+          <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Title</label>
+                        <div class="input-group">
+                        <input type="text" name="name" [(ngModel)]="pagesDetails.title" class="form-control" placeholder="Name" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group pages_description">
+                        <label for="name">Description</label>
+                        <div class="input-group">
+                            <div [innerHTML]="pagesDetails.description">{{pagesDetails.description}}</div>
+                            <!-- <input type="text" name="name" [(ngModel)]="pagesDetails.description" class="form-control" placeholder="Name"> -->
+                            <!-- <textarea [innerHTML]="pagesDetails.description" [(ngModel)]="pagesDetails.description" class="form-control" rows="5" autocomplete="off" cols="5" name="description" readonly></textarea> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name">Image</label>
+                        <div class="img text-center">
+                                <img class="img-fluid" [src]="pagesDetails.url" alt="slider">
+                            <!-- <input type="text" name="name" [(ngModel)]="pagesDetails.title" class="form-control" placeholder="Name"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Close</button>
+      <!-- <button type="button" class="btn btn-outline-dark" [disabled]="media.isUse == true" (click)="submit()">Save</button> -->
+    </div>
+  </ng-template>
+
+
+<!-- <p>
+  pages works!
+</p> -->

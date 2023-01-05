@@ -1,0 +1,102 @@
+<!-- <p>
+  add-promo-code works!
+</p> -->
+<div>
+    <div class="card-header header-pagetitle" *ngIf="!promoCode.id">
+        Add Promo Code
+    </div>
+    <div class="card-header header-pagetitle" *ngIf="promoCode.id">
+        Edit Promo Code
+    </div>
+    <form class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="title">Promo Code<span class="required">*</span></label>
+            <div class="input-group">
+              <input type="text" name="promoCode" class="form-control" placeholder="Promo Code" [(ngModel)]="promoCode.code" maxlength="25" [disabled] ="promoCode.id">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="title">Start Date<span class="required">*</span></label>
+              <div class="input-group-append mybdatepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="startDate" #startDealDate="ngModel" [(ngModel)]="promoCode.startDate" ngbDatepicker #startDate="ngbDatepicker" required valid>
+                <button class="calendar" (click)="startDate.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label for="title">Expiry Date<span class="required">*</span></label>
+              <div class="input-group-append mybdatepicker">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="endDate" #endDealDate="ngModel" [(ngModel)]="promoCode.expireDate" ngbDatepicker #endDate="ngbDatepicker" required valid>
+                  <button class="calendar" (click)="endDate.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+              </div>
+           </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+              <label for="title">User limit</label>
+              <div class="input-group">
+                <input type="number" name="userLimit" class="form-control" placeholder="user limit" [(ngModel)]="promoCode.usageLimit" min="0" [disabled] ="promoCode.id">
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="discount-type">Discount Type<span class="required">*</span></label>
+                <div class="input-group">
+                    <select name="discountType" id="discount-type" class="form-control" [(ngModel)]="promoCode.discountType" [disabled] ="promoCode.id">
+                        <option value="" disabled>Select discount type</option>
+                        <option value="percent">Percentage  discount</option>
+                        <option value="amount">Fixed amount discount</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+              <label for="percent-off">Percent off<span class="required">*</span></label>
+              <div class="input-group">
+                <input id="percent-off" type="number" name="percentOff" class="form-control" placeholder="set 1% by default" [(ngModel)]="promoCode.percentOff" min="0" [disabled] ="promoCode.id">
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="amount-off">Amount off<span class="required">*</span></label>
+                <div class="input-group">
+                    <input id="amount-off" type="number" name="amountOff" class="form-control" placeholder="set 1$ by default" [(ngModel)]="promoCode.amountOff" min="0" [disabled] ="promoCode.id">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+              <label for="title">Duration of month<span class="required">*</span></label>
+              <div class="input-group">
+                <input type="number" name="month" class="form-control" placeholder="duration of month" [(ngModel)]="promoCode.durationInMonth" min="0" [disabled] ="promoCode.id">
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+              <label for="title">Select Membership<span class="required">*</span></label>
+              <div class="input-group">
+                <select name="type" id="type" class="form-control" [(ngModel)]="promoCode.membershipId">
+                      <option value="" disabled>Select membership</option>
+                      <option value="1">Basic</option>
+                      <option value="2">Premium</option>
+                      <option value="3">Both</option>
+                </select>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+          <button class="btn btn-outline-dark"  type="button" (click)="submit()">Submit</button>
+        </div>
+      </form>
+</div>

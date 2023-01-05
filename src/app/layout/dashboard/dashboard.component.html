@@ -1,0 +1,31 @@
+<div>
+    <div class="card-header header-pagetitle">
+        Dashboard
+    </div>
+    <div class="row dashboard">
+        <div class="col-md-6">
+            <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="dashboardCount.activeDealsCount" [label]="'Active Deals Count'" ></app-stat>
+        </div>
+        <div class="col-md-6">
+            <app-stat [bgClass]="'danger'" [icon]="'fa-support'" [count]="dashboardCount.redeemCount" [label]="'Redeem Count'"></app-stat>
+        </div>
+    </div>
+    
+    <div class="row margintop30">
+        <div *ngIf = "serverResponses == 'true'" class="col col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    Pie Chart
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-3">
+                            <canvas baseChart height="150px" [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>  
+</div>

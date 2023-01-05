@@ -1,0 +1,41 @@
+<div class="login-page">
+    <div class="row justify-content-md-center">
+
+        <h1 class="heading text-center">
+            <img src="assets/images/logo.png" alt="City On Demand">
+            <span>Admin Panel</span>
+        </h1>
+        <div class="col-md-4 ">
+            <!-- <img src="assets/images/logo.png" width="150px" class="user-avatar" /> -->
+            <!--<p class="errormsg text-center">{{serverError}}</p>-->
+            <form class="logininner" #loginForm="ngForm" (ngSubmit)="login(user)" role="form">
+                <div class="logintext">Please Enter Your Information</div>
+                <div class="form-content form-contentdiv">
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="user.username" name="username" class="form-control input-underline input-lg" id="loginusername" placeholder="username" #username="ngModel" required>
+                        <span class="errormsg" *ngIf="username.dirty || username.touched">
+                            <b *ngIf="username.errors?.required">username is required</b>
+                            <!-- <b *ngIf="username.errors && username.errors.pattern"> username is invalid </b> -->
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" [(ngModel)]="user.password" name="password" class="form-control input-underline input-lg" id="loginPassword" placeholder="Password" #password="ngModel" minlength = "8" required >
+                        <span class="errormsg" *ngIf="password.dirty || password.touched">
+                            <b *ngIf="password.errors?.required">Password is required</b>
+                            <!--<b *ngIf="password.errors?.minlength"> Password must be of atleast 8 character. </b>-->
+                            <!--<b *ngIf="password.errors?.maxlength"> Password must be lessthan 32 character. </b>-->
+                        </span>
+                    </div>
+<!--                      <a class="forgetpasswordtext" routerLink="/forgotPassword">Forgot your password?</a>-->
+                </div>
+                <div class="text-center">
+                    <button class="btn rounded-btn w-100"  type="submit" [disabled]="!loginForm.form.valid"> Log in </button>
+                    <a routerLink="/forgotPassword">Forgot your password?</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

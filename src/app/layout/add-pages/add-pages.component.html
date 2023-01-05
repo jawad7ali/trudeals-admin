@@ -1,0 +1,67 @@
+<div>
+  <div class="card-header header-pagetitle" *ngIf="!pages.id">
+      Add Page
+  </div> 
+  <div class="card-header header-pagetitle" *ngIf="pages.id">
+      Edit Page
+  </div>
+  <form class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="title">Title<span class="required">*</span></label>
+        <div class="input-group">
+          <input type="text" name="title" class="form-control" placeholder="Title" [(ngModel)]="pages.title" maxlength="250">
+        </div>
+      </div>
+    </div>
+	
+    <!-- <div class="col-md-6">
+        <label for="title">News start date<span class="required">*</span></label>
+        <div class="input-group-append mybdatepicker">
+          <!-- <ngb-datepicker [(ngModel)]="model" name="startDate"></ngb-datepicker> -->
+          <!-- <input class="form-control" placeholder="yyyy-mm-dd" name="startDate" #startDealDate="ngModel" [(ngModel)]="pages.pagesDate" ngbDatepicker #startDate="ngbDatepicker" required valid>
+          <button class="calendar" (click)="startDate.toggle()" type="button"><i class="fa fa-calendar"></i></button>
+        </div>
+    </div> -->
+	
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="title">Description<span class="required">*</span></label>
+        <div class="input-group">
+          <ckeditor
+              [(ngModel)]="pages.description"
+              [config]="ckEditorConfig"
+              [readonly]="false"
+              debounce="500"
+              name="description">
+            </ckeditor>
+          <!-- <textarea [(ngModel)]="pages.description" class="form-control" rows="5" cols="5" name="description" ></textarea> -->
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-md-12">
+      <div class="form-group">
+        <label for="Icons">Upload image<span class="required">*</span></label>
+        <div class="row">
+          <div class="col-md-3" *ngIf="pages.imageUrl">
+            <div class="upload-img">
+              <img class="img-fluid" src="{{pages.imageUrl}}" alt="slider">
+              <button type="button" class="remove-images" (click)="deleteImage()"><i class="fa fa-times" aria-hidden="true"></i> Remove Image</button>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="uploadimgs">
+              <label>Click to upload image</label>
+              <input type="file" name="medias" id="medias" (change)="imageUpload($event)">
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div> -->
+
+    <div class="col-md-12">
+      <button class="btn btn-outline-dark"  type="button" (click)="submit()">Submit</button>
+    </div>
+  </form>
+</div>  

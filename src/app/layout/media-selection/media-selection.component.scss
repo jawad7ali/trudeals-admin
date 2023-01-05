@@ -1,0 +1,61 @@
+.select_galleryimage {
+    position: relative;
+}
+.select_galleryimage input{
+}
+.select_galleryimage input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+.select_galleryimage label {
+    display: none;padding: 0 6px;
+}
+.select_galleryimage input:checked + label {
+    display: block;
+    color: #b88224;
+    position: absolute;
+    top: 0;
+    font-size: 24px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    margin-bottom: 0;
+    text-align: right;
+    border: 2px solid;
+}
+.modal-header .modal-title input{
+    width: 320px;
+    border-radius: 3px;
+    font-size: 14px;
+    padding: 3px 10px;
+}
+.action_bottom.smt_galleryimage .btn {
+    padding: 5px;
+}
+.select_galleryimage p {
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+    color: #fff;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(32,32,53,0) 0%, #000000 100%);
+    padding-top: 10px;
+    padding-bottom: 2px;
+}
+.img{
+    max-width: 100%;
+}
+@media (max-width: 576px){
+    .modal-header .modal-title input{    width: 100%;}
+    .modal-header .close {    position: absolute;  right: 10px;   top: 10px;}
+}

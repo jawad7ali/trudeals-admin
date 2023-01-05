@@ -1,0 +1,119 @@
+<div>
+    <div class="card-header header-pagetitle">
+        Page Blocks
+        <button type="button" class="btn btn-outline-dark" (click)="openNewModal(content)">Add Block</button>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col col-xl-12 col-lg-12">
+                <div class="card mb-3">
+                    <div class="row form-group marginhead">
+                        <div class="col-md-12">
+                            <input type="text" name="searchUser" class="form-control input-underline col-md-4 pull-right" id="searchUser" placeholder="Search" [(ngModel)]="filter.search" (keyup)="searchContent()">
+                        </div>
+
+                        <div class="card-body table-responsive">
+
+                            <span class="no_records" *ngIf="totalBlocks == 0">{{noDataMessage}}</span>
+                            <div *ngIf="totalBlocks > 0">
+                                <data-table
+                                    [items]="pageBlocks"
+                                    [itemCount]="itemCount"
+                                    [pagination] = true
+                                    [pageLimits]="limits"
+                                    [indexColumn]= false
+                                    (reload)="reloadItems($event)">
+                                    <data-table-column
+                                        [property]="'id'"
+                                        [header]="'ID'"
+                                        [width]="40"
+                                        [sortable]="true">
+                                    </data-table-column>
+                                    <data-table-column
+                                        [property]="'url'"
+                                        [header]="'URL'"
+                                        [width]="100"
+                                        [sortable]="true">
+                                    </data-table-column>
+                                    <data-table-column
+                                        [property]="'position'"
+                                        [header]="'Position'"
+                                        [width]="100"
+                                        [sortable]="true">
+                                    </data-table-column>
+                                    <data-table-column
+                                        [property]="'title'"
+                                        [header]="'Title'"
+                                        [sortable]="true"
+                                        [resizable]="true">
+                                        <ng-template #dataTableCell let-item="item">
+                                            <p [innerHTML]="item.title"></p>
+                                        </ng-template>
+                                    </data-table-column>
+                                    <data-table-column
+                                        [property]="'text'"
+                                        [header]="'Text'"
+                                        [visible]="false"
+                                        [sortable]="true"
+                                        [resizable]="true">
+                                    </data-table-column>
+                                    <data-table-column
+                                        [property]="'hasbutton'"
+                                        [header]="'Has a button ?'"
+                                        [visible]="false"
+                                        [sortable]="true"
+                                        [resizable]="true">
+                                    </data-table-column>
+                                    <data-table-column
+                                        [property]="'buttontitle'"
+                                        [header]="'Button title'"
+                                        [visible]="false"
+                                        [sortable]="true"
+                                        [resizable]="true">
+                                    </data-table-column>
+                                    <data-table-column
+                                        [property]="'buttonurl'"
+                                        [header]="'Button URL'"
+                                        [visible]="false"
+                                        [sortable]="true"
+                                        [resizable]="true">
+                                    </data-table-column>
+                                    <data-table-column
+                                        [width]="130"
+                                        header="Actions">
+                                        <ng-template #dataTableHeader let-item="item">
+                                            Actions
+                                        </ng-template>
+                                        <ng-template #dataTableCell let-item="item">
+                                            <button type="button" class="btn btn-sm btn-success margin-inline" title="edit" (click)="open(content, item)"><i class="fa fa-pencil"></i></button>
+                                            <button type="button" class="btn btn-sm btn-danger margin-inline" title="delete" (click)="deletePageBlock(item)"><i class="fa fa-trash"></i></button>
+                                            <!-- <button (click)="carClicked(item)" class="btn btn-sm btn-default">Buy</button> -->
+                                        </ng-template>
+                                    </data-table-column>
+                                </data-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-md-12 text-center">
+                <ngb-pagination class="d-flex justify-content-center" [collectionSize]="70" [(page)]="page" aria-label="Default pagination"></ngb-pagination>
+            </div> -->
+        </div>
+    </div>
+</div>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Page Block Details</h5>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-add-page-blocks
+            (onSubmit)="onSubmit($event)"
+            [place]="place"
+            [pageBlock]="pageBlockDetails">
+        </app-add-page-blocks>
+    </div>
+</ng-template>
